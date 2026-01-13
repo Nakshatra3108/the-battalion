@@ -175,15 +175,17 @@ export default function Lobby({ onJoinRoom, onPlayLocal }: LobbyProps) {
               JOIN DISCORD
             </a>
 
-            <a
-              href="mailto:theplotarmour@gmail.com?subject=Bug Report - The Battalion"
+            <button
+              onClick={() => {
+                window.location.href = 'mailto:theplotarmour@gmail.com?subject=Bug%20Report%20-%20The%20Battalion';
+              }}
               className="w-full py-3 bg-[#0a0a0a] hover:bg-[#f44336]/20 border border-[#f44336]/50 text-[#f44336]/80 hover:text-[#f44336] uppercase tracking-wider font-bold rounded transition-all hover:shadow-[0_0_15px_rgba(244,67,54,0.3)] flex items-center justify-center gap-3"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               REPORT A BUG
-            </a>
+            </button>
           </div>
         )}
 
