@@ -1,0 +1,334 @@
+================================================================================
+                        THE BATTALION - TUTORIAL SLIDES CONTENT
+================================================================================
+
+RECOMMENDED SLIDE DIMENSIONS:
+- 1920 x 1080 pixels (16:9 aspect ratio - Standard HD)
+
+Export as: PNG
+Name files: slide-1.png, slide-2.png, etc.
+Place in: public/slides/
+
+
+================================================================================
+SLIDE 1: MISSION BRIEFING
+================================================================================
+
+                           ⚔️ THE BATTALION ⚔️
+                    Tactical Dominance Simulation
+
+Welcome, Commander. You are about to engage in a strategic battle for 
+regional control. Deploy your battalions, answer tactical situations, 
+and outmaneuver your opponents to secure victory.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PRIMARY OBJECTIVE:
+Have the most CONTROL BATTALIONS when the operation ends.
+
+Control Battalions are units that have helped you secure a Sector.
+Once a Sector is controlled, those battalions become LOCKED and count 
+toward your final score.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GAME END CONDITIONS:
+• All 9 Sectors have a controlling commander, OR
+• All grid coordinates on the map are fully occupied
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ CRITICAL INTEL:
+You DON'T win by controlling the most Sectors!
+You win by having the most Battalions that COUNT toward control.
+
+Example: If you control 2 large Sectors with 11 battalions each, you 
+have 22 points. An opponent with 3 small Sectors might only have 18!
+
+[Add: Full game board screenshot showing the island map]
+
+
+================================================================================
+SLIDE 2: THE BATTLEFIELD & HOT ZONES
+================================================================================
+
+                           🗺️ THE BATTLEFIELD 🗺️
+
+The map is an island fortress divided into 9 SECTORS arranged in a 
+strategic 3x3 grid formation.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SECTOR BREAKDOWN:
+
+┌─────────────────┬──────────┬────────────────┐
+│ SECTOR TYPE     │ CAPACITY │ CONTROL NEEDED │
+├─────────────────┼──────────┼────────────────┤
+│ Corners (4x)    │ 11 slots │ 6 battalions   │
+│ Frozen Reach, Storm Peak, Dead Drop, Ember Coast                │
+├─────────────────┼──────────┼────────────────┤
+│ Edges (2x)      │ 17 slots │ 9 battalions   │
+│ Iron Gate, Shadow Pass                                          │
+├─────────────────┼──────────┼────────────────┤
+│ Large (2x)      │ 21 slots │ 11 battalions  │
+│ Northern Citadel, Southern Bastion                              │
+├─────────────────┼──────────┼────────────────┤
+│ Center (1x)     │ 9 slots  │ 5 battalions   │
+│ The Nexus                                                       │
+└─────────────────┴──────────┴────────────────┘
+
+To CONTROL a Sector: You need MORE THAN HALF of its capacity.
+Once controlled, your battalions there become LOCKED and score points!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+                            ⚡ HOT ZONES ⚡
+
+11 Hot Zone slots are scattered across the map (marked with ⚡).
+
+When you place a Battalion on a Hot Zone:
+  ✦ A FLASHPOINT EVENT triggers immediately (headline card appears)
+  ✦ That Battalion becomes PERMANENT:
+      • Cannot be redeployed or moved
+      • Cannot be converted by enemies
+      • Cannot be destroyed by most abilities
+
+Hot Zones are double-edged: they're risky but provide unshakeable 
+footholds that enemies cannot remove!
+
+[Add: Close-up of a sector showing Hot Zone markers]
+
+
+================================================================================
+SLIDE 3: RESOURCES & COMMANDERS
+================================================================================
+
+                        💎 RESOURCES & COMMANDERS 💎
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4 RESOURCE TYPES (Maximum 12 total across all types):
+
+  🟡 SUPPLY (Yellow)     - Logistics & Economic Operations
+  🔴 FIREPOWER (Red)     - Military Force & Direct Action
+  🟣 INTEL (Purple)      - Intelligence & Information Warfare
+  🔵 MORALE (Blue)       - Psychological Operations & Loyalty
+
+Starting Resources: Assigned by turn order to balance first-move advantage
+  • Player 1: 6 resources  • Player 2: 7 resources
+  • Player 3: 8 resources  • Player 4: 9 resources
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SPEND RESOURCES ON:
+  • Requisition Battalions (units to deploy on the map)
+  • Acquire Black Ops cards (powerful one-time abilities)
+  • Activate Commander Powers (special abilities you unlock)
+  • Request new Situation Reports (costs 4 resources to skip)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4 COMMANDER IDEOLOGIES:
+
+Each Situation Report answer aligns with one Commander doctrine.
+Answer consistently to unlock powerful abilities!
+
+  🟡 STRATEGIST    → Specializes in Supply
+     "Economic dominance through resource control"
+     
+  🔴 WARLORD       → Specializes in Firepower
+     "Direct force, destruction, and aggressive territory seizure"
+     
+  🟣 TACTICIAN     → Specializes in Intel
+     "Rapid deployment, information warfare, force multiplication"
+     
+  🔵 DIPLOMAT      → Specializes in Morale
+     "Conversion, cost reduction, winning hearts and minds"
+
+[Add: Screenshot of resources panel + ideology/commander cards]
+
+
+================================================================================
+SLIDE 4: TURN SEQUENCE
+================================================================================
+
+                          🔄 TURN SEQUENCE 🔄
+
+Each commander takes turns in order. Your turn has 4 main phases:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PHASE 1: SITUATION REPORT 📋
+
+A tactical scenario appears with 4 response options.
+Each option gives you:
+  • Specific resources (shown on the card)
+  • +1 progress on a Commander ideology track
+
+Choose wisely! Your answers shape your Commander powers.
+
+💡 TIP: Pay 4 resources to SKIP and get a new Situation Report if 
+   the options don't suit your strategy.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PHASE 2: ACTION PHASE ⚡
+
+This is your main decision phase. You can:
+  • REQUISITION BATTALIONS - Buy units (costs vary)
+      └ 1 unit = ~2 resources, 2 units = ~4, 3 units = ~6
+  • ACQUIRE BLACK OPS - Purchase powerful covert action cards
+  • USE COMMANDER POWERS - Activate unlocked special abilities
+  • PLAY BLACK OPS CARDS - Use cards you've purchased
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PHASE 3: DEPLOYMENT 🎯
+
+Place battalions from your RESERVE onto the map.
+  • Click on any empty slot in any Sector
+  • Battalions in your Reserve must be deployed before turn ends
+  • Placing on a Hot Zone triggers a Flashpoint Event!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PHASE 4: REDEPLOYMENT ↔️
+
+Move battalions between ADJACENT Sectors (only if you have majority).
+
+Rules:
+  • You must have the MOST battalions in a Sector to move from it
+  • Ties = No movement rights
+  • You can move ANY player's battalions (not just yours!)
+  • Cannot move from Hot Zones or move Locked battalions
+  • Cannot completely abandon a Sector using its own movement rights
+
+[Add: Screenshot showing turn phase indicator or action buttons]
+
+
+================================================================================
+SLIDE 5: COMMANDER POWERS
+================================================================================
+
+                         ⭐ COMMANDER POWERS ⭐
+
+Answer Situation Reports aligned with a Commander to unlock powers!
+Focus on ONE Commander for faster progression and stacking bonuses.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LEVEL 2 - PASSIVE BONUSES (Unlock at 2 answers)
+Always active once unlocked. Bonuses STACK with each trigger!
+
+  🟡 Investment Returns  │ +1 Supply every 2 Strategist answers
+  🔴 Intimidation        │ +1 Firepower every 2 Warlord answers
+  🟣 Media Presence      │ +1 Intel every 2 Tactician answers
+  🔵 Grassroots Support  │ +1 Morale every 2 Diplomat answers
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LEVEL 3 - ACTIVE ABILITIES (Unlock at 3 answers)
+Use during Action Phase. Powerful mid-game advantages!
+
+  🟡 Prospecting     │ Trade 1 resource → Receive 2 resources
+  🔴 Donations       │ Steal 1 resource from any opponent
+  🟣 Going Viral     │ Get +1 FREE Battalion when requisitioning
+  🔵 Helping Hands   │ Get 1 resource DISCOUNT on any purchase
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LEVEL 5 - ULTIMATE POWERS (Unlock at 5 answers)
+Game-changing abilities that can turn the tide of battle!
+
+  🟡 Supply Blockade │ EVICT any Battalion from the board
+                     │ → Owner must redeploy it next turn
+                     
+  🔴 Kinetic Strike  │ Pay 1 resource → DESTROY an enemy Battalion
+                     │ → Permanently removes it from the game
+                     
+  🟣 Election Fever  │ PASSIVE: Redeploy 2 Battalions per Sector
+                     │ → Instead of the normal limit of 1
+                     
+  🔵 Tough Love      │ Pay 2 Morale + 2 Any resource
+                     │ → CONVERT 2 enemy Battalions to your color
+
+[Add: Screenshot of the powers panel or ideology tracker]
+
+
+================================================================================
+SLIDE 6: VICTORY & STRATEGY
+================================================================================
+
+                          🏆 VICTORY & STRATEGY 🏆
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+HOW VICTORY IS DETERMINED:
+
+Game ends when:
+  • All 9 Sectors are controlled, OR
+  • Every slot on the map is occupied
+
+SCORING:
+  • Count your LOCKED Battalions (those that secured a Sector)
+  • Each Locked Battalion = 1 Point
+  • Commander with the HIGHEST SCORE wins!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🕵️ BLACK OPS CARDS
+
+Covert operations that can devastate opponents or save yourself:
+
+  │ Political Veto    │ 4 │ Block an opponent's redeployment     │
+  │ Safe Zone         │ 4 │ Protect a Sector from attacks        │
+  │ Bribery           │ 4 │ Steal 2 resources from opponent      │
+  │ Scandal           │ 4 │ Drain opponent's resources           │
+  │ Coup              │ 5 │ Destroy an enemy Battalion           │
+  │ Defection         │ 4 │ Force-move an enemy Battalion        │
+  │ Political Shuffle │ 4 │ Swap positions of 2 Battalions       │
+  │ Fake News         │ 4 │ Cancel a Flashpoint Event            │
+  │ Emergency Session │ 5 │ Take an extra Action Phase           │
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 WINNING STRATEGIES:
+
+  ★ TARGET LARGE SECTORS: Northern Citadel & Southern Bastion give 
+    11 points each - worth more than two corner Sectors combined!
+
+  ★ SECURE CORNERS EARLY: Corners only need 6 battalions to control.
+    Quick, easy footholds to build your base.
+
+  ★ USE HOT ZONES WISELY: Permanent positions are powerful, but 
+    Flashpoint Events can be unpredictable. Time them carefully.
+
+  ★ FOCUS ONE COMMANDER: Stacking bonuses from Level 2 powers and 
+    rushing to Level 5 ultimates is often better than spreading out.
+
+  ★ WATCH YOUR OPPONENTS: Use redeployment to disrupt enemy control.
+    Remember - you can move THEIR battalions too!
+
+  ★ SAVE BLACK OPS: Don't use them early. Save for critical moments 
+    when an opponent is about to secure a major Sector.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+                    Good luck, Commander. Victory awaits.
+
+[Add: Screenshot of game over screen or scoring breakdown]
+
+
+================================================================================
+                              END OF CONTENT
+================================================================================
+
+TOTAL: 6 SLIDES
+
+SUMMARY:
+  Slide 1 - Mission Briefing & Objective
+  Slide 2 - The Battlefield & Hot Zones
+  Slide 3 - Resources & Commanders
+  Slide 4 - Turn Sequence (all 4 phases)
+  Slide 5 - Commander Powers (Levels 2, 3, 5)
+  Slide 6 - Victory Conditions, Black Ops & Strategy Tips
