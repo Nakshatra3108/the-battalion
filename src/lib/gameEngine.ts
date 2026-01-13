@@ -173,6 +173,7 @@ export function initializeGame(playerNames: string[], playerColors?: string[]): 
     protectedZoneExpirations: {},
     startingPlayerId: null,
     marketVersion: 0,
+    lastBlackOpsPlayed: null,
   };
 }
 
@@ -2924,6 +2925,16 @@ export function playConspiracyCard(state: GameState, data: PlayConspiracyData): 
 
   // BROADCAST: Log the Black Ops card usage so ALL players can see it
   newState = addToLog(newState, player.id, 'PLAY_CONSPIRACY', `⚠️ BLACK OPS: ${player.name} used ${card.name}!`);
+
+  // Set the lastBlackOpsPlayed for visual notification
+  newState = {
+    ...newState,
+    lastBlackOpsPlayed: {
+      playerName: player.name,
+      cardName: card.name,
+      timestamp: Date.now(),
+    },
+  };
 
   // Apply Whistleblower punishment if applicable
   newState = applyWhistleblowerPunishment(newState, playingPlayerId);

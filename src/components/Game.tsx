@@ -445,6 +445,23 @@ export default function Game() {
         </div>
       )}
 
+      {/* Black Ops Notification Toast */}
+      {state.lastBlackOpsPlayed && Date.now() - state.lastBlackOpsPlayed.timestamp < 5000 && (
+        <div className="fixed top-32 left-1/2 -translate-x-1/2 z-[9999] bg-gradient-to-r from-[#1a1a2e] to-[#16213e] text-white px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(220,38,38,0.6)] border-2 border-[#dc2626] font-mono animate-pulse">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">⚠️</span>
+            <div>
+              <div className="text-[#dc2626] font-bold uppercase tracking-widest text-xs mb-1">BLACK OPS ALERT</div>
+              <div className="text-lg font-bold">
+                <span className="text-[#fbbf24]">{state.lastBlackOpsPlayed.playerName}</span>
+                <span className="text-gray-300"> used </span>
+                <span className="text-[#f87171]">{state.lastBlackOpsPlayed.cardName}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* In-Game Help */}
       <InGameHelp
         currentPhase={state.phase}

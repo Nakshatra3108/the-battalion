@@ -204,6 +204,7 @@ export interface GameState {
   redeploymentBlockerId: string | null; // Player who blocked redeployment (expires on their next turn)
   protectedZoneExpirations: Record<string, string>; // zoneId -> playerId who protected it (expires on their next turn)
   startingPlayerId: string | null; // The player who started the game (first turn)
+  lastBlackOpsPlayed: { playerName: string; cardName: string; timestamp: number } | null; // Last Black Ops card played (for notification)
 }
 
 export interface GameLogEntry {
