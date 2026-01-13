@@ -75,13 +75,13 @@ export const conspiracyCardTemplates: ConspiracyCard[] = [
     isInstant: true,
   },
 
-  // Flashpoint Manipulation
+  // Intel Manipulation
   {
-    id: 'conspiracy_fake_news',
-    name: 'False Flag Operation',
-    description: 'Cancel the current Flashpoint card effect. It has no effect this round.',
+    id: 'conspiracy_intel_sweep',
+    name: 'Intel Sweep',
+    description: 'Gain 1 resource of each type (if room permits). Maximum 12 total resources.',
     cost: { media: 4 },
-    effect: { type: 'BLOCK_HEADLINE' },
+    effect: { type: 'GAIN_ALL_RESOURCES' },
     isInstant: true,
   },
 

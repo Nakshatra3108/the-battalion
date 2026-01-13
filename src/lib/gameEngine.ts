@@ -2893,9 +2893,37 @@ export function playConspiracyCard(state: GameState, data: PlayConspiracyData): 
         newState = addToLog(newState, player.id, 'CONSPIRACY_PROTECT_ZONE', `Protected ${zoneName} from redeployment`);
       }
       break;
+
+    case 'GAIN_ALL_RESOURCES':
+      // Gain 1 of each resource type (respecting max 12 total)
+      {
+        const currentTotal = getTotalResources(player.resources);
+        const canAdd = Math.min(4, MAX_RESOURCES - currentTotal); // Maximum 4 resources (1 of each)
+
+        if (canAdd > 0) {
+          const newResources = { ...player.resources };
+          const resourceOrder: ResourceType[] = ['funds', 'clout', 'media', 'trust'];
+          let added = 0;
+
+          for (const resType of resourceOrder) {
+            if (added >= canAdd) break;
+            newResources[resType] += 1;
+            added++;
+          }
+
+          const updatedPlayer: Player = { ...newState.players[player.id], resources: newResources };
+          newState = {
+            ...newState,
+            players: { ...newState.players, [player.id]: updatedPlayer },
+          };
+          newState = addToLog(newState, player.id, 'CONSPIRACY_INTEL_SWEEP', `Gained ${added} resources from Intel Sweep`);
+        }
+      }
+      break;
   }
 
-  newState = addToLog(newState, player.id, 'PLAY_CONSPIRACY', `Played ${card.name}`);
+  // BROADCAST: Log the Black Ops card usage so ALL players can see it
+  newState = addToLog(newState, player.id, 'PLAY_CONSPIRACY', `⚠️ BLACK OPS: ${player.name} used ${card.name}!`);
 
   // Apply Whistleblower punishment if applicable
   newState = applyWhistleblowerPunishment(newState, playingPlayerId);
@@ -3771,9 +3799,9 @@ export function removePlayer(state: GameState, playerId: string): GameState {
 
   // 8. Determine Next Active Player if the removed player was active (and not in special phases)
   if (state.activePlayerId === playerId &&
-      newState.phase !== 'RESOURCE_SELECTION' &&
-      newState.phase !== 'FIRST_PLAYER_SELECTION' &&
-      newState.phase !== 'GAME_OVER') {
+    newState.phase !== 'RESOURCE_SELECTION' &&
+    newState.phase !== 'FIRST_PLAYER_SELECTION' &&
+    newState.phase !== 'GAME_OVER') {
     // Sort remaining players by ID to determine order
     const sortedPlayers = remainingPlayers.sort((a, b) => a.id.localeCompare(b.id));
 

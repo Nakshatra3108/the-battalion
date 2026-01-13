@@ -134,7 +134,8 @@ export interface ConspiracyEffect {
   | 'BLOCK_HEADLINE'       // Cancel the current headline effect
   | 'PROTECT_ZONE'         // Protect a zone from all effects this round
   | 'RESOURCE_DRAIN'       // All opponents lose resources
-  | 'BATTALION_TRANSFER';      // Transfer a battalion from one sector to another
+  | 'BATTALION_TRANSFER'   // Transfer a battalion from one sector to another
+  | 'GAIN_ALL_RESOURCES';  // Gain 1 of each resource type
   value?: number; // Amount for effects (e.g., resources to steal)
   targetCount?: number; // How many targets (battalions, resources, etc.)
 }
