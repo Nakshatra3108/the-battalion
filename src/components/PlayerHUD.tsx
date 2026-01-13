@@ -238,7 +238,7 @@ export function SidebarAgentCard({ player, isActive }: { player: Player; isActiv
             {player.name}
           </span>
           <div className="flex items-center gap-2 mt-0.5">
-            <span className={`text-[9px] px-1.5 py-0.5 rounded uppercase font-bold tracking-wider ${isActive ? 'bg-[#4caf50]/20 text-[#4caf50] border border-[#4caf50]/50' : 'text-[#4caf50]/40'}`}>
+            <span className={`text-[9px] px-1.5 py-0.5 rounded uppercase font-bold tracking-wider ${isActive ? 'bg-[#4caf50]/20 text-[#4caf50] border border-[#4caf50]/50' : 'text-[#4caf50]/70'}`}>
               {isActive ? 'ACTIVE' : 'STANDBY'}
             </span>
             {player.battalionReserve > 0 && (
@@ -257,7 +257,7 @@ export function SidebarAgentCard({ player, isActive }: { player: Player; isActiv
           const total = player.resources.funds + player.resources.clout + player.resources.media + player.resources.trust;
           const isFull = total >= 12;
           return (
-            <div className={`text-center text-[9px] font-bold uppercase tracking-wider mb-1.5 py-0.5 rounded ${isFull ? 'bg-[#f44336]/20 text-[#f44336] border border-[#f44336]/50' : 'text-[#4caf50]/40'}`} style={isFull ? { textShadow: '0 0 8px rgba(244,67,54,0.5)' } : {}}>
+            <div className={`text-center text-[9px] font-bold uppercase tracking-wider mb-1.5 py-0.5 rounded ${isFull ? 'bg-[#f44336]/20 text-[#f44336] border border-[#f44336]/50' : 'text-[#4caf50]/70'}`} style={isFull ? { textShadow: '0 0 8px rgba(244,67,54,0.5)' } : {}}>
               {total}/12 {isFull && '⚠ FULL'}
             </div>
           );

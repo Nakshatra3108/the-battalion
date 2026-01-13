@@ -83,7 +83,7 @@ export default function WaitingRoom({
                 {copied ? '✓' : '⧉'}
               </button>
             </div>
-            <p className="text-[#4caf50]/40 text-xs mt-2 uppercase tracking-wider">
+            <p className="text-[#4caf50]/70 text-xs mt-2 uppercase tracking-wider">
               Share with operatives
             </p>
           </div>
@@ -146,7 +146,7 @@ export default function WaitingRoom({
                 key={`empty-${i}`}
                 className="flex items-center p-3 rounded border-2 border-dashed border-[#4caf50]/20"
               >
-                <span className="text-[#4caf50]/30 uppercase tracking-wider text-sm">Awaiting operative...</span>
+                <span className="text-[#4caf50]/60 uppercase tracking-wider text-sm">Awaiting operative...</span>
               </div>
             ))}
           </div>
@@ -163,12 +163,12 @@ export default function WaitingRoom({
                   w-full py-4 text-lg font-bold rounded uppercase tracking-wider transition-all
                   ${canStart
                     ? 'bg-[#4caf50] hover:bg-[#66bb6a] text-[#0a0a0a] shadow-[0_0_20px_rgba(76,175,80,0.4)]'
-                    : 'bg-[#1a1a1a] text-[#4caf50]/30 cursor-not-allowed border border-[#4caf50]/20'}
+                    : 'bg-[#1a1a1a] text-[#4caf50]/60 cursor-not-allowed border border-[#4caf50]/20'}
                 `}
               >
                 {canStart ? 'COMMENCE OPERATION' : `NEED ${2 - players.length} MORE`}
               </button>
-              <p className="text-[#4caf50]/40 text-xs text-center uppercase tracking-wider">
+              <p className="text-[#4caf50]/70 text-xs text-center uppercase tracking-wider">
                 You are commanding. Deploy when ready.
               </p>
             </>

@@ -120,7 +120,7 @@ export default function Lobby({ onJoinRoom, onPlayLocal }: LobbyProps) {
                 <div className="w-full border-t border-[#4caf50]/30" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-[#0a0a0a] px-4 text-[#4caf50]/50 text-xs uppercase tracking-widest">OPERATIONS</span>
+                <span className="bg-[#0a0a0a] px-4 text-[#4caf50]/80 text-xs uppercase tracking-widest">OPERATIONS</span>
               </div>
             </div>
 
@@ -143,7 +143,7 @@ export default function Lobby({ onJoinRoom, onPlayLocal }: LobbyProps) {
                 <div className="w-full border-t border-[#4caf50]/30" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-[#0a0a0a] px-4 text-[#4caf50]/50 text-xs uppercase tracking-widest">LOCAL</span>
+                <span className="bg-[#0a0a0a] px-4 text-[#4caf50]/80 text-xs uppercase tracking-widest">LOCAL</span>
               </div>
             </div>
 
@@ -159,7 +159,7 @@ export default function Lobby({ onJoinRoom, onPlayLocal }: LobbyProps) {
                 <div className="w-full border-t border-[#4caf50]/30" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-[#0a0a0a] px-4 text-[#4caf50]/50 text-xs uppercase tracking-widest">COMMUNITY</span>
+                <span className="bg-[#0a0a0a] px-4 text-[#4caf50]/80 text-xs uppercase tracking-widest">COMMUNITY</span>
               </div>
             </div>
 
@@ -204,7 +204,7 @@ export default function Lobby({ onJoinRoom, onPlayLocal }: LobbyProps) {
               INITIALIZE ROOM
             </button>
 
-            <p className="text-[#4caf50]/40 text-xs text-center uppercase tracking-wider">
+            <p className="text-[#4caf50]/70 text-xs text-center uppercase tracking-wider">
               Room code will be generated automatically
             </p>
           </div>

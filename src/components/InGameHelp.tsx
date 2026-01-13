@@ -184,14 +184,14 @@ export default function InGameHelp({ currentPhase, isOpen, onToggle }: InGameHel
                 </ul>
 
                 <div className="mt-4 pt-3 border-t border-[#4caf50]/20">
-                  <p className="text-[9px] text-[#4caf50]/40 mb-2 uppercase tracking-wider">Phase Sequence:</p>
+                  <p className="text-[9px] text-[#4caf50]/70 mb-2 uppercase tracking-wider">Phase Sequence:</p>
                   <div className="flex flex-wrap gap-1">
                     {(['ANSWERING', 'ACTION', 'DEPLOYMENT', 'REDEPLOYMENT'] as GamePhase[]).map(phase => (
                       <span
                         key={phase}
                         className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider ${phase === currentPhase
                           ? 'bg-[#4caf50] text-[#0a0a0a] font-bold'
-                          : 'border border-[#4caf50]/30 text-[#4caf50]/40'
+                          : 'border border-[#4caf50]/30 text-[#4caf50]/70'
                           }`}
                       >
                         {phase.slice(0, 4)}
@@ -218,7 +218,7 @@ export default function InGameHelp({ currentPhase, isOpen, onToggle }: InGameHel
                       </div>
                       <div className="flex-1">
                         <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: RESOURCE_COLORS[res.key] }}>{res.name}</p>
-                        <p className="text-[9px] text-[#4caf50]/50">{res.desc}</p>
+                        <p className="text-[9px] text-[#4caf50]/80">{res.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -237,7 +237,7 @@ export default function InGameHelp({ currentPhase, isOpen, onToggle }: InGameHel
                 <h3 className="text-sm font-bold text-[#4caf50] mb-3 uppercase tracking-widest" style={{ textShadow: '0 0 8px rgba(76,175,80,0.5)' }}>
                   COMMANDER POWERS
                 </h3>
-                <p className="text-[9px] text-[#4caf50]/50 mb-3">
+                <p className="text-[9px] text-[#4caf50]/80 mb-3">
                   L2: Passive bonus per answer | L3/L5: Active abilities
                 </p>
                 <div className="space-y-2">

@@ -64,7 +64,7 @@ export default function MissionBriefing({ onComplete }: MissionBriefingProps) {
             </div>
 
             {/* Version */}
-            <div className="absolute bottom-4 text-[#4caf50]/30 text-xs font-mono">
+            <div className="absolute bottom-4 text-[#4caf50]/60 text-xs font-mono">
                 v1.0 // CLASSIFIED
             </div>
         </div>

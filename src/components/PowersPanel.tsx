@@ -359,7 +359,7 @@ export default function PowersPanel({
                   </div>
                   <p className="text-[10px] text-[#4caf50]/60 mt-1 leading-tight">{power.description}</p>
                   {!isPassive && (
-                    <p className="text-[9px] text-[#4caf50]/40 mt-1">
+                    <p className="text-[9px] text-[#4caf50]/70 mt-1">
                       {used}/{power.maxUses} USED
                     </p>
                   )}
@@ -423,7 +423,7 @@ export default function PowersPanel({
                         {selectedResources.length > 0 && (
                           <button
                             onClick={() => setSelectedResources([])}
-                            className="text-[10px] text-[#4caf50]/40 mt-1 uppercase tracking-wider hover:text-[#4caf50]"
+                            className="text-[10px] text-[#4caf50]/70 mt-1 uppercase tracking-wider hover:text-[#4caf50]"
                           >
                             [CLEAR]
                           </button>
@@ -553,7 +553,7 @@ export default function PowersPanel({
                         {selectedResources.length > 0 && (
                           <button
                             onClick={() => setSelectedResources([])}
-                            className="text-[10px] text-[#4caf50]/40 mt-1 uppercase tracking-wider hover:text-[#4caf50]"
+                            className="text-[10px] text-[#4caf50]/70 mt-1 uppercase tracking-wider hover:text-[#4caf50]"
                           >
                             [CLEAR]
                           </button>

@@ -88,7 +88,7 @@ export default function IdeologyCard({ card, onAnswer, disabled, onRedraw, canRe
         })}
       </div>
 
-      <p className="text-center text-[#4caf50]/50 text-[9px] mt-4 uppercase tracking-[0.3em] relative z-10">
+      <p className="text-center text-[#4caf50]/80 text-[9px] mt-4 uppercase tracking-[0.3em] relative z-10">
         [ RESPONSE REQUIRED TO PROCEED ]
       </p>
     </div>

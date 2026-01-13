@@ -242,7 +242,7 @@ export default function ConspiracyCardShop({
         <button
           onClick={() => !disabled && setShowShop(!showShop)}
           disabled={disabled}
-          className={`text-xs uppercase tracking-wider ${disabled ? 'text-[#4caf50]/30 cursor-not-allowed' : 'text-[#4caf50] hover:text-[#66bb6a]'}`}
+          className={`text-xs uppercase tracking-wider ${disabled ? 'text-[#4caf50]/60 cursor-not-allowed' : 'text-[#4caf50] hover:text-[#66bb6a]'}`}
         >
           {showShop && !disabled ? '[ HIDE ]' : '[ BUY ]'}
         </button>
@@ -250,7 +250,7 @@ export default function ConspiracyCardShop({
 
       {/* Show disabled message when not player's turn */}
       {disabled && !canPlayCards && (
-        <p className="text-[#4caf50]/40 text-xs uppercase tracking-wider">Awaiting authorization...</p>
+        <p className="text-[#4caf50]/70 text-xs uppercase tracking-wider">Awaiting authorization...</p>
       )}
 
       {/* Player's Black Ops cards - can be played anytime */}
@@ -598,7 +598,7 @@ export default function ConspiracyCardShop({
                         px-4 py-2 rounded text-sm font-bold uppercase tracking-wider transition-all
                         ${affordable
                           ? 'bg-[#4caf50] hover:bg-[#66bb6a] text-[#0a0a0a] shadow-[0_0_10px_rgba(76,175,80,0.4)]'
-                          : 'bg-[#1a1a1a] text-[#4caf50]/30 cursor-not-allowed'
+                          : 'bg-[#1a1a1a] text-[#4caf50]/60 cursor-not-allowed'
                         }
                       `}
                     >
@@ -614,7 +614,7 @@ export default function ConspiracyCardShop({
       )}
 
       {playerCards.length === 0 && !showShop && canPlayCardsFromHand && (
-        <p className="text-[#4caf50]/40 text-sm uppercase tracking-wider">No ops cards. {!disabled ? 'Click "Buy Cards" to acquire.' : ''}</p>
+        <p className="text-[#4caf50]/70 text-sm uppercase tracking-wider">No ops cards. {!disabled ? 'Click "Buy Cards" to acquire.' : ''}</p>
       )}
     </div>
   );

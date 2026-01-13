@@ -91,7 +91,7 @@ export default function Tutorial({ onClose }: TutorialProps) {
               />
             ))}
           </div>
-          <p className="text-right text-[#4caf50]/40 text-[10px] mt-1 uppercase tracking-wider">
+          <p className="text-right text-[#4caf50]/70 text-[10px] mt-1 uppercase tracking-wider">
             SLIDE {currentSlide + 1} / {SLIDES.length}
           </p>
         </div>
@@ -165,7 +165,7 @@ export default function Tutorial({ onClose }: TutorialProps) {
         </div>
 
         {/* Keyboard hint */}
-        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 text-[#4caf50]/30 text-[10px] uppercase tracking-wider">
+        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 text-[#4caf50]/60 text-[10px] uppercase tracking-wider">
           Use arrow keys or spacebar to navigate
         </div>
       </div>

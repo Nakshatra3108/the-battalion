@@ -107,7 +107,7 @@ export default function DeploymentShop({
             UNIT REQUISITION
           </h3>
         </div>
-        <div className="text-center text-[#4caf50]/50 text-sm py-4">
+        <div className="text-center text-[#4caf50]/80 text-sm py-4">
           Loading deployment orders...
         </div>
       </div>

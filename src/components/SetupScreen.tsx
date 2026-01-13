@@ -70,7 +70,7 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
           <h1 className="text-4xl font-bold text-[#4caf50] mb-2 uppercase tracking-[0.2em] drop-shadow-[0_0_10px_rgba(76,175,80,0.8)]">
             {gameTitle}
           </h1>
-          <p className="text-[#4caf50]/50 uppercase tracking-widest text-xs border-y border-[#4caf50]/20 py-1 inline-block px-4">
+          <p className="text-[#4caf50]/80 uppercase tracking-widest text-xs border-y border-[#4caf50]/20 py-1 inline-block px-4">
             {gameSubtitle}
           </p>
         </div>
@@ -89,7 +89,7 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
                   flex-1 py-3 rounded font-bold transition-all relative overflow-hidden group
                   ${playerCount === count
                     ? 'bg-[#4caf50] text-[#0a0a0a] shadow-[0_0_15px_#4caf50]'
-                    : 'bg-[#0a0a0a] border border-[#4caf50]/30 text-[#4caf50]/50 hover:border-[#4caf50] hover:text-[#4caf50]'
+                    : 'bg-[#0a0a0a] border border-[#4caf50]/30 text-[#4caf50]/80 hover:border-[#4caf50] hover:text-[#4caf50]'
                   }
                 `}
               >
@@ -149,7 +149,7 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
 
         {/* Instructions */}
         <div className="mt-8 text-center border-t border-[#4caf50]/20 pt-4">
-          <p className="text-[#4caf50]/40 text-[10px] uppercase tracking-wider">
+          <p className="text-[#4caf50]/70 text-[10px] uppercase tracking-wider">
             Secure sector majority to establish control
           </p>
         </div>

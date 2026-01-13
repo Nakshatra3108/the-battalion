@@ -79,7 +79,7 @@ export default function GameLog({ entries, players, maxEntries = 50 }: GameLogPr
 
       {entries.length === 0 && (
         <div className="flex-1 flex items-center justify-center">
-          <p className="text-[#4caf50]/40 text-xs uppercase tracking-wider">
+          <p className="text-[#4caf50]/70 text-xs uppercase tracking-wider">
             NO TRANSMISSIONS
           </p>
         </div>
