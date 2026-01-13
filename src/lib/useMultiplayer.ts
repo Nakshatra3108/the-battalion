@@ -61,10 +61,10 @@ export function useMultiplayer({
       minUptime: 1000,
     });
 
-    // Keep-alive ping interval (every 15 seconds - more aggressive)
+    // Keep-alive ping interval - increased for better tolerance on slow networks
     let pingInterval: NodeJS.Timeout | null = null;
     let missedPongs = 0;
-    const MAX_MISSED_PONGS = 3;
+    const MAX_MISSED_PONGS = 5; // 5 missed pongs = 125s timeout before reconnect
 
     ws.addEventListener('open', () => {
       setConnected(true);
@@ -96,7 +96,7 @@ export function useMultiplayer({
             ws.send(JSON.stringify({ type: 'ping' }));
           }
         }
-      }, 15000); // Ping every 15 seconds
+      }, 25000); // Ping every 25 seconds (more tolerance for slow networks)
     });
 
     ws.addEventListener('close', (event) => {
