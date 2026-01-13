@@ -30,7 +30,9 @@ export default function GameLog({ entries, players, maxEntries = 50 }: GameLogPr
         return '▶';
       case 'REDEPLOYMENT':
         return '↔';
-      case 'HEADLINE':
+      case 'FLASHPOINT':
+      case 'FLASHPOINT_EFFECT':
+      case 'FLASHPOINT_BONUS':
         return '⚡';
       case 'POWER_UNLOCK':
         return '★';
