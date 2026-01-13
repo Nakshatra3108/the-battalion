@@ -751,6 +751,16 @@ export function placeBattalion(state: GameState, zoneId: string, slotIndex: numb
     newState = triggerHeadline(newState);
   }
 
+  // Check if all slots are now filled - end game immediately
+  const gameEndCheck = checkGameEnd(newState);
+  if (gameEndCheck.ended) {
+    return {
+      ...newState,
+      phase: 'GAME_OVER',
+      winner: gameEndCheck.winner,
+    };
+  }
+
   return newState;
 }
 
@@ -1529,11 +1539,29 @@ export function executeRedeployment(
 export function endActionPhase(state: GameState): GameState {
   const player = state.players[state.activePlayerId];
 
-  if (player.battalionReserve > 0) {
+  // Check if game should end (all slots filled)
+  const gameEndCheck = checkGameEnd(state);
+  if (gameEndCheck.ended) {
     return {
       ...state,
-      phase: 'DEPLOYMENT',
+      phase: 'GAME_OVER',
+      winner: gameEndCheck.winner,
     };
+  }
+
+  if (player.battalionReserve > 0) {
+    // Check if there are any empty slots to place battalions
+    const hasEmptySlots = Object.values(state.zones).some(zone =>
+      zone.slots.some(slot => slot === null)
+    );
+
+    if (hasEmptySlots) {
+      return {
+        ...state,
+        phase: 'DEPLOYMENT',
+      };
+    }
+    // No empty slots - skip deployment, battalions are lost
   }
 
   // Check if player has any valid redeploy moves available
@@ -1621,7 +1649,11 @@ export function endTurn(state: GameState): GameState {
   const nextPlayer = state.players[nextPlayerId];
 
   // Check if next player has evicted voters to place
-  const startingPhase: GamePhase = nextPlayer.evictedBattalions > 0 ? 'PLACE_EVICTED' : 'ANSWERING';
+  // But only if there are empty slots available
+  const hasEmptySlots = Object.values(state.zones).some(zone =>
+    zone.slots.some(slot => slot === null)
+  );
+  const startingPhase: GamePhase = (nextPlayer.evictedBattalions > 0 && hasEmptySlots) ? 'PLACE_EVICTED' : 'ANSWERING';
 
   let newState = addToLog(
     {
@@ -1630,6 +1662,7 @@ export function endTurn(state: GameState): GameState {
       turnNumber: newTurnNumber,
       phase: startingPhase,
       powerUsage: createPowerUsage(), // Reset power usage for new turn
+      turnsRemaining: newTurnsRemaining, // Save the countdown state
 
       // Update protected zones - only expire if it's the protector's turn again
       protectedZones: state.protectedZones.filter(zoneId => {
@@ -1672,9 +1705,25 @@ export function endTurn(state: GameState): GameState {
 export function endPlaceEvictedPhase(state: GameState): GameState {
   const player = state.players[state.activePlayerId];
 
-  // If player still has evicted voters, can't end this phase
+  // Check if game should end (all slots filled)
+  const gameEndCheck = checkGameEnd(state);
+  if (gameEndCheck.ended) {
+    return {
+      ...state,
+      phase: 'GAME_OVER',
+      winner: gameEndCheck.winner,
+    };
+  }
+
+  // If player still has evicted voters, check if there are empty slots
   if (player.evictedBattalions > 0) {
-    return state;
+    const hasEmptySlots = Object.values(state.zones).some(zone =>
+      zone.slots.some(slot => slot === null)
+    );
+    // If no empty slots, skip this phase (battalions are lost)
+    if (hasEmptySlots) {
+      return state;
+    }
   }
 
   // Progress to ANSWERING phase
@@ -1707,6 +1756,11 @@ export function checkGameEnd(state: GameState): { ended: boolean; winner: string
 
   if (allMajoritiesFormed) {
     // Game ends immediately if all majorities are formed
+    return calculateGameResult(state, zones);
+  }
+
+  // Game ends immediately if all slots are filled
+  if (allSlotsFilled) {
     return calculateGameResult(state, zones);
   }
 
@@ -2723,6 +2777,16 @@ export function placeEvictedBattalion(state: GameState, zoneId: string, slotInde
   // Check for volatile slot trigger
   if (isVolatileSlot(zone, slotIndex)) {
     newState = triggerHeadline(newState);
+  }
+
+  // Check if all slots are now filled - end game immediately
+  const gameEndCheck = checkGameEnd(newState);
+  if (gameEndCheck.ended) {
+    return {
+      ...newState,
+      phase: 'GAME_OVER',
+      winner: gameEndCheck.winner,
+    };
   }
 
   // If all evicted voters placed, automatically progress to ANSWERING phase
