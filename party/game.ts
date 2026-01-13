@@ -111,43 +111,14 @@ export default class GameRoom implements Party.Server {
       // Clean up ping tracking
       this.lastPingTime.delete(conn.id);
 
-      // Find the disconnected player
+      // Need to find which player disconnected
       const playerIndex = this.room.players.findIndex(p => p.connectionId === conn.id);
+
       if (playerIndex !== -1) {
         const player = this.room.players[playerIndex];
-        console.log(`[GameRoom] Player disconnected: ${player.name} (${player.id}), game started: ${this.room.gameStarted}`);
+        console.log(`[GameRoom] Player disconnected: ${player.name} (${player.id})`);
 
-        // If game is in progress, DON'T remove the player - let them rejoin
-        // Just clear their connectionId so we know they're disconnected
-        if (this.room.gameStarted) {
-          console.log(`[GameRoom] Keeping player ${player.name} in roster for potential rejoin`);
-          player.connectionId = ''; // Mark as disconnected but keep in list
-
-          // If this was the host, transfer host to first connected player
-          if (player.isHost) {
-            const connectedPlayer = this.room.players.find(p => p.connectionId !== '');
-            if (connectedPlayer) {
-              connectedPlayer.isHost = true;
-              this.room.hostId = connectedPlayer.id;
-              player.isHost = false;
-            }
-          }
-
-          // Broadcast player disconnect (but not removal)
-          this.party.broadcast(JSON.stringify({
-            type: "player_left",
-            playerId: player.id,
-            players: this.room.players,
-            hostId: this.room.hostId,
-            gameStarted: this.room.gameStarted,
-            playerDisconnected: true, // Signal this is a disconnect, not a leave
-          }));
-
-          await this.saveState();
-          return;
-        }
-
-        // Game not started - fully remove player
+        // Remove player immediately (no grace period)
         this.room.players.splice(playerIndex, 1);
 
         // If room is empty, RESET state logic via DELETION
@@ -200,18 +171,8 @@ export default class GameRoom implements Party.Server {
         case "join": {
           // Check if game already started
           if (this.room.gameStarted) {
-            // Allow rejoin if player was in game (match by ID first, then by name as fallback)
-            let existingPlayer = this.room.players.find(p => p.id === data.playerId);
-
-            // If no ID match, try matching by name (for reconnections where session ID changed)
-            if (!existingPlayer) {
-              existingPlayer = this.room.players.find(p => p.name === data.playerName);
-              if (existingPlayer) {
-                console.log(`[GameRoom] Player rejoining by name: ${data.playerName} (old ID: ${existingPlayer.id}, new ID: ${data.playerId})`);
-                // Update the player ID to the new one
-                existingPlayer.id = data.playerId;
-              }
-            }
+            // Allow rejoin if player was in game (strict ID match only)
+            const existingPlayer = this.room.players.find(p => p.id === data.playerId);
 
             if (existingPlayer) {
               existingPlayer.connectionId = sender.id;
