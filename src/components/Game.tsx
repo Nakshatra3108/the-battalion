@@ -55,6 +55,7 @@ export default function Game() {
   const [showBriefing, setShowBriefing] = useState(true); // Show mission briefing on game start
   const [showGameLog, setShowGameLog] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleJoinRoom = useCallback((roomId: string, playerId: string, playerName: string) => {
     setOnlineSession({ roomId, playerId, playerName });
@@ -99,9 +100,11 @@ export default function Game() {
 
       if (state.phase === 'REDEPLOYMENT') {
         if (!redeploymentSource) {
-          // No source selected - try to select one
-          const majority = calculateZoneMajority(zone, state.players);
-          if (majority.majorityOwner === state.activePlayerId && zone.slots[slotIndex] !== null) {
+          // Allow selecting any non-volatile, non-locked battalion as source
+          // Validation of rights happens when destination is selected
+          if (zone.slots[slotIndex] !== null &&
+            !zone.volatileSlots.includes(slotIndex) &&
+            !zone.lockedSlots[slotIndex]) {
             setRedeploymentSource({ zoneId, slotIndex });
           }
         } else {
@@ -112,7 +115,7 @@ export default function Game() {
             // Clicking same slot cancels selection
             setRedeploymentSource(null);
           } else if (zone.slots[slotIndex] === null) {
-            // Clicking empty slot - try to move voter there
+            // Clicking empty slot - try to move battalion there
             const validation = canRedeploy(
               state,
               state.activePlayerId,
@@ -129,16 +132,18 @@ export default function Game() {
                 fromSlot: redeploymentSource.slotIndex,
                 toSlot: slotIndex,
               });
+              setRedeploymentSource(null);
+            } else {
+              // Show error feedback like multiplayer
+              setErrorMessage(validation.reason || 'Invalid move');
+              setTimeout(() => setErrorMessage(null), 3000);
+              setRedeploymentSource(null);
             }
-            setRedeploymentSource(null);
           } else {
-            // Clicking another voter - check if we can select it instead
-            const majority = calculateZoneMajority(zone, state.players);
-            if (majority.majorityOwner === state.activePlayerId) {
-              // Select this voter instead
+            // Clicking another occupied slot - switch to that as source
+            if (!zone.volatileSlots.includes(slotIndex) && !zone.lockedSlots[slotIndex]) {
               setRedeploymentSource({ zoneId, slotIndex });
             } else {
-              // Can't select, just cancel
               setRedeploymentSource(null);
             }
           }
@@ -416,17 +421,12 @@ export default function Game() {
         onDismiss={handleClearResourceGain}
       />
 
-      {/* Exit Game Button - Top Left like multiplayer */}
-      <button
-        onClick={() => {
-          if (confirm('Are you sure you want to exit the game?')) {
-            handleBackToLobby();
-          }
-        }}
-        className="fixed top-4 left-4 z-50 px-3 py-1 bg-[#f44336]/80 hover:bg-[#f44336] text-white rounded-lg text-sm font-mono uppercase tracking-wider transition-all"
-      >
-        EXIT
-      </button>
+      {/* Error Toast Notification */}
+      {errorMessage && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[9999] bg-[#f44336] text-white px-6 py-3 rounded-lg shadow-[0_0_20px_rgba(244,67,54,0.5)] font-mono uppercase tracking-wider text-sm animate-pulse">
+          <span className="mr-2">⚠</span> {errorMessage}
+        </div>
+      )}
 
       {/* In-Game Help */}
       <InGameHelp
@@ -450,6 +450,17 @@ export default function Game() {
           </button>
 
           <div className={`h-full overflow-y-auto p-4 ${!isSidebarOpen && 'invisible'}`}>
+            {/* Exit Button - Fixed position in sidebar header */}
+            <button
+              onClick={() => {
+                if (confirm('Are you sure you want to exit the game?')) {
+                  handleBackToLobby();
+                }
+              }}
+              className="mb-3 px-3 py-1 bg-[#f44336]/80 hover:bg-[#f44336] text-white rounded text-xs font-mono uppercase tracking-wider transition-all"
+            >
+              EXIT ⏻
+            </button>
             <h2 className="text-lg font-bold mb-4 text-[#4caf50] uppercase tracking-widest glow-green font-mono">AGENTS</h2>
             <div className="space-y-3 pb-4">
               {Object.values(state.players).map(player => (
@@ -495,7 +506,7 @@ export default function Game() {
               />
             </div>
 
-            
+
             {/* Center Modal Layer - For question card only */}
             {state.phase === 'ANSWERING' && (
               <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none p-8">
