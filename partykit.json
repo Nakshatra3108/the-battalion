@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.partykit.io/schema.json",
-  "name": "shasn-game",
+  "name": "battalion",
   "main": "party/game.ts",
   "compatibilityDate": "2024-01-01"
 }
