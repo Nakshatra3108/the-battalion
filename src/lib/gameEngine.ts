@@ -1212,6 +1212,7 @@ function applyHeadlineEffect(state: GameState, headline: HeadlineCard): GameStat
                 ? addResources(player.resources, change)
                 : subtractResources(player.resources, change),
             };
+            newState = addToLog(newState, playerId, 'HEADLINE_EFFECT', `${effect.value > 0 ? 'Gained' : 'Lost'} ${Math.abs(effect.value)} ${effect.resource} from headline`);
           }
         }
       }
@@ -1229,6 +1230,7 @@ function applyHeadlineEffect(state: GameState, headline: HeadlineCard): GameStat
               ? addResources(player.resources, change)
               : subtractResources(player.resources, change),
           };
+          newState = addToLog(newState, targetId, 'HEADLINE_EFFECT', `${effect.value > 0 ? 'Gained' : 'Lost'} ${Math.abs(effect.value)} ${effect.resource} from headline`);
         }
       }
       break;
@@ -1245,6 +1247,7 @@ function applyHeadlineEffect(state: GameState, headline: HeadlineCard): GameStat
               ...player,
               resources: addResources(player.resources, change),
             };
+            newState = addToLog(newState, playerId, 'HEADLINE_EFFECT', `Gained ${bonus} ${effect.resource} (${ideologyCount} ${effect.ideology} cards)`);
           }
         }
       }
@@ -1275,6 +1278,7 @@ function applyHeadlineEffect(state: GameState, headline: HeadlineCard): GameStat
                 ...player,
                 resources: addResources(player.resources, change),
               };
+              newState = addToLog(newState, playerId, 'HEADLINE_BONUS', `Gained ${effect.value} ${effect.resource} from headline!`);
             } else {
               // Distribute evenly (for "choice" effects, we'll split evenly)
               const perType = Math.floor(effect.value / 4);
@@ -1289,6 +1293,8 @@ function applyHeadlineEffect(state: GameState, headline: HeadlineCard): GameStat
                 ...player,
                 resources: addResources(player.resources, change),
               };
+              const totalGained = (change.funds || 0) + (change.clout || 0) + (change.media || 0) + (change.trust || 0);
+              newState = addToLog(newState, playerId, 'HEADLINE_BONUS', `Gained ${totalGained} resources from headline!`);
             }
           }
         }
