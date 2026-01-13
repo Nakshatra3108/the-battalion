@@ -909,17 +909,7 @@ export default function MultiplayerGame({
         />
       )}
 
-      {/* Exit Game Button */}
-      <button
-        onClick={() => {
-          if (confirm('Are you sure you want to exit the game?')) {
-            onLeave();
-          }
-        }}
-        className="fixed top-4 left-4 z-50 px-3 py-1 bg-[#f44336]/80 hover:bg-[#f44336] text-white rounded-lg text-sm font-mono uppercase tracking-wider transition-all"
-      >
-        EXIT
-      </button>
+      {/* Exit button moved to sidebar */}
 
 
 
@@ -960,6 +950,17 @@ export default function MultiplayerGame({
 
 
           <div className={`h-full overflow-y-auto p-4 ${!isSidebarOpen && 'invisible'}`}>
+            {/* Exit Button - Fixed position in sidebar header */}
+            <button
+              onClick={() => {
+                if (confirm('Are you sure you want to exit the game?')) {
+                  onLeave();
+                }
+              }}
+              className="mb-3 px-3 py-1 bg-[#f44336]/80 hover:bg-[#f44336] text-white rounded text-xs font-mono uppercase tracking-wider transition-all"
+            >
+              EXIT ⏻
+            </button>
             <h2 className="text-lg font-bold mb-4 text-[#4caf50] uppercase tracking-widest glow-green font-mono">AGENTS</h2>
             {(() => {
               const players = Object.values(gameState.players);
