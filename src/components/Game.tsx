@@ -93,7 +93,22 @@ export default function Game() {
 
       if (state.phase === 'DEPLOYMENT' && player.battalionReserve > 0) {
         if (zone.slots[slotIndex] === null) {
+          // Check if we had majority before placing
+          const hadMajorityBefore = zone.majorityOwner === state.activePlayerId;
+
           dispatch({ type: 'PLACE_BATTALION', zoneId, slotIndex });
+          playSound('deploy_troop');
+
+          // Check if we just gained majority
+          const playersInZone: Record<string, number> = {};
+          zone.slots.forEach(pid => {
+            if (pid) playersInZone[pid] = (playersInZone[pid] || 0) + 1;
+          });
+          playersInZone[state.activePlayerId] = (playersInZone[state.activePlayerId] || 0) + 1;
+          const ourCount = playersInZone[state.activePlayerId] || 0;
+          if (!hadMajorityBefore && ourCount >= zone.majorityRequired) {
+            setTimeout(() => playSound('success_chime'), 300);
+          }
         }
         return;
       }
@@ -132,9 +147,11 @@ export default function Game() {
                 fromSlot: redeploymentSource.slotIndex,
                 toSlot: slotIndex,
               });
+              playSound('redeploy_move');
               setRedeploymentSource(null);
             } else {
               // Show error feedback like multiplayer
+              playSound('alert_error');
               setErrorMessage(validation.reason || 'Invalid move');
               setTimeout(() => setErrorMessage(null), 3000);
               setRedeploymentSource(null);
