@@ -112,8 +112,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'A defector from enemy ranks seeks asylum. Claims to have critical intelligence.',
     optionA: {
       text: 'Grant asylum. Debrief them immediately.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { trust: 2, media: 1 },
+      ideology: 'idealist',
     },
     optionB: {
       text: 'Could be a trap. Detain and interrogate.',
@@ -365,8 +365,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'The enemy commander has been captured. They\'re requesting a private audience.',
     optionA: {
       text: 'Grant it. Hear what they have to say.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { trust: 2, media: 1 },
+      ideology: 'idealist',
     },
     optionB: {
       text: 'Deny. They\'re a prisoner, nothing more.',
@@ -393,8 +393,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Local leaders want to discuss the future of the region. They seek guarantees.',
     optionA: {
       text: 'Promise self-governance once stability returns.',
-      resources: { media: 2, trust: 1 },
-      ideology: 'showstopper',
+      resources: { trust: 3 },
+      ideology: 'idealist',
     },
     optionB: {
       text: 'Install a military administration temporarily.',
@@ -421,8 +421,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'The second enemy force has arrived. They\'re offering unconditional surrender.',
     optionA: {
       text: 'Accept and disarm them peacefully.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { trust: 3 },
+      ideology: 'idealist',
     },
     optionB: {
       text: 'Demand reparations as part of terms.',
