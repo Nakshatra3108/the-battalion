@@ -844,7 +844,7 @@ export function triggerHeadline(state: GameState): GameState {
     headlineDeck: remainingDeck,
   };
 
-  newState = addToLog(newState, state.activePlayerId, 'HEADLINE', `Headline: ${headline.title} - ${headline.description}`);
+  newState = addToLog(newState, state.activePlayerId, 'FLASHPOINT', `Flashpoint: ${headline.title} - ${headline.description}`);
 
   // Apply headline effect
   newState = applyHeadlineEffect(newState, headline);
@@ -1212,7 +1212,7 @@ function applyHeadlineEffect(state: GameState, headline: HeadlineCard): GameStat
                 ? addResources(player.resources, change)
                 : subtractResources(player.resources, change),
             };
-            newState = addToLog(newState, playerId, 'HEADLINE_EFFECT', `${effect.value > 0 ? 'Gained' : 'Lost'} ${Math.abs(effect.value)} ${effect.resource} from headline`);
+            newState = addToLog(newState, playerId, 'FLASHPOINT_EFFECT', `${effect.value > 0 ? 'Gained' : 'Lost'} ${Math.abs(effect.value)} ${resourceNames[effect.resource as ResourceType]} from flashpoint`);
           }
         }
       }
@@ -1230,7 +1230,7 @@ function applyHeadlineEffect(state: GameState, headline: HeadlineCard): GameStat
               ? addResources(player.resources, change)
               : subtractResources(player.resources, change),
           };
-          newState = addToLog(newState, targetId, 'HEADLINE_EFFECT', `${effect.value > 0 ? 'Gained' : 'Lost'} ${Math.abs(effect.value)} ${effect.resource} from headline`);
+          newState = addToLog(newState, targetId, 'FLASHPOINT_EFFECT', `${effect.value > 0 ? 'Gained' : 'Lost'} ${Math.abs(effect.value)} ${resourceNames[effect.resource as ResourceType]} from flashpoint`);
         }
       }
       break;
@@ -1247,7 +1247,7 @@ function applyHeadlineEffect(state: GameState, headline: HeadlineCard): GameStat
               ...player,
               resources: addResources(player.resources, change),
             };
-            newState = addToLog(newState, playerId, 'HEADLINE_EFFECT', `Gained ${bonus} ${effect.resource} (${ideologyCount} ${effect.ideology} cards)`);
+            newState = addToLog(newState, playerId, 'FLASHPOINT_EFFECT', `Gained ${bonus} ${resourceNames[effect.resource as ResourceType]} (${ideologyCount} ${commanderNames[effect.ideology as IdeologyType]} cards)`);
           }
         }
       }
@@ -1278,7 +1278,7 @@ function applyHeadlineEffect(state: GameState, headline: HeadlineCard): GameStat
                 ...player,
                 resources: addResources(player.resources, change),
               };
-              newState = addToLog(newState, playerId, 'HEADLINE_BONUS', `Gained ${effect.value} ${effect.resource} from headline!`);
+              newState = addToLog(newState, playerId, 'FLASHPOINT_BONUS', `Gained ${effect.value} ${resourceNames[effect.resource as ResourceType]} from flashpoint!`);
             } else {
               // Distribute evenly (for "choice" effects, we'll split evenly)
               const perType = Math.floor(effect.value / 4);
@@ -1294,7 +1294,7 @@ function applyHeadlineEffect(state: GameState, headline: HeadlineCard): GameStat
                 resources: addResources(player.resources, change),
               };
               const totalGained = (change.funds || 0) + (change.clout || 0) + (change.media || 0) + (change.trust || 0);
-              newState = addToLog(newState, playerId, 'HEADLINE_BONUS', `Gained ${totalGained} resources from headline!`);
+              newState = addToLog(newState, playerId, 'FLASHPOINT_BONUS', `Gained ${totalGained} resources from flashpoint!`);
             }
           }
         }
@@ -3486,7 +3486,7 @@ export function usePropagandist(
     },
     player.id,
     'USE_PROPAGANDIST',
-    `Forced headline "${headline.title}" targeting ${targetPlayer.name}`
+    `Forced Flashpoint "${headline.title}" targeting ${targetPlayer.name}`
   );
 }
 

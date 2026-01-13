@@ -94,6 +94,18 @@ export default function MultiplayerGame({
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Default open
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showBriefing, setShowBriefing] = useState(true); // Show mission briefing when game starts
+  const [showBlackOpsAlert, setShowBlackOpsAlert] = useState(false);
+
+  // Auto-dismiss Black Ops alert after 5 seconds
+  useEffect(() => {
+    if (gameState?.lastBlackOpsPlayed) {
+      setShowBlackOpsAlert(true);
+      const timer = setTimeout(() => {
+        setShowBlackOpsAlert(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [gameState?.lastBlackOpsPlayed?.timestamp]);
 
   const isHostRef = useRef(false);
   const playersListRef = useRef<PlayerInfo[]>([]);
@@ -921,7 +933,7 @@ export default function MultiplayerGame({
       )}
 
       {/* Black Ops Notification Toast */}
-      {gameState.lastBlackOpsPlayed && Date.now() - gameState.lastBlackOpsPlayed.timestamp < 5000 && (
+      {showBlackOpsAlert && gameState.lastBlackOpsPlayed && (
         <div className="fixed top-32 left-1/2 -translate-x-1/2 z-[9999] bg-gradient-to-r from-[#1a1a2e] to-[#16213e] text-white px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(220,38,38,0.6)] border-2 border-[#dc2626] font-mono animate-pulse">
           <div className="flex items-center gap-3">
             <span className="text-2xl">⚠️</span>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { GameState, GameAction, ResourceType, Resources } from '@/types/game';
 import { useGameState } from '@/lib/GameContext';
 import { calculateZoneMajority, canRedeploy, getTotalResources, getRedeploymentRightsHolder } from '@/lib/gameEngine';
@@ -56,6 +56,18 @@ export default function Game() {
   const [showGameLog, setShowGameLog] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showBlackOpsAlert, setShowBlackOpsAlert] = useState(false);
+
+  // Auto-dismiss Black Ops alert after 5 seconds
+  useEffect(() => {
+    if (state?.lastBlackOpsPlayed) {
+      setShowBlackOpsAlert(true);
+      const timer = setTimeout(() => {
+        setShowBlackOpsAlert(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [state?.lastBlackOpsPlayed?.timestamp]);
 
   const handleJoinRoom = useCallback((roomId: string, playerId: string, playerName: string) => {
     setOnlineSession({ roomId, playerId, playerName });
@@ -446,7 +458,7 @@ export default function Game() {
       )}
 
       {/* Black Ops Notification Toast */}
-      {state.lastBlackOpsPlayed && Date.now() - state.lastBlackOpsPlayed.timestamp < 5000 && (
+      {showBlackOpsAlert && state.lastBlackOpsPlayed && (
         <div className="fixed top-32 left-1/2 -translate-x-1/2 z-[9999] bg-gradient-to-r from-[#1a1a2e] to-[#16213e] text-white px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(220,38,38,0.6)] border-2 border-[#dc2626] font-mono animate-pulse">
           <div className="flex items-center gap-3">
             <span className="text-2xl">⚠️</span>
