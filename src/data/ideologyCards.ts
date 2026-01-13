@@ -28,7 +28,7 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Your advance team discovers an abandoned outpost. Signs indicate recent enemy activity.',
     optionA: {
       text: 'Establish a forward operating base here.',
-      resources: { funds: 2, trust: 1 },
+      resources: { funds: 3 },
       ideology: 'capitalist',
     },
     optionB: {
@@ -42,8 +42,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Local villagers approach your position. They claim the enemy has been terrorizing their community.',
     optionA: {
       text: 'Promise protection in exchange for intel.',
-      resources: { trust: 2, media: 1 },
-      ideology: 'idealist',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
     optionB: {
       text: 'Pay them for information. Credits talk.',
@@ -61,8 +61,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Feed them false intel through the channel.',
-      resources: { media: 3 },
-      ideology: 'showstopper',
+      resources: { funds: 2, media: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -75,8 +75,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Let it pass. We can\'t risk exposure.',
-      resources: { trust: 2, media: 1 },
-      ideology: 'idealist',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
   },
   {
@@ -112,8 +112,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'A defector from enemy ranks seeks asylum. Claims to have critical intelligence.',
     optionA: {
       text: 'Grant asylum. Debrief them immediately.',
-      resources: { media: 2, trust: 1 },
-      ideology: 'idealist',
+      resources: { clout: 2, trust: 1 },
+      ideology: 'supremo',
     },
     optionB: {
       text: 'Could be a trap. Detain and interrogate.',
@@ -131,8 +131,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'The defector\'s intel was real. Enemy reinforcements are inbound - ETA 48 hours.',
     optionA: {
       text: 'Fortify current positions. Dig in.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
     optionB: {
       text: 'Strike now before reinforcements arrive.',
@@ -159,12 +159,12 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Our supply lines are stretched thin. Command offers two resupply options.',
     optionA: {
       text: 'Request ammunition and weapons.',
-      resources: { clout: 3 },
-      ideology: 'supremo',
+      resources: { clout: 2, funds: 1 },
+      ideology: 'capitalist',
     },
     optionB: {
       text: 'Request medical supplies and rations.',
-      resources: { trust: 2, funds: 1 },
+      resources: { trust: 3 },
       ideology: 'idealist',
     },
   },
@@ -178,8 +178,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Counter with our own broadcast. Win hearts and minds.',
-      resources: { media: 2, trust: 1 },
-      ideology: 'showstopper',
+      resources: { trust: 2, media: 1 },
+      ideology: 'idealist',
     },
   },
   {
@@ -229,13 +229,13 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Local merchants offer black market supplies. Quality is guaranteed, but the source is unknown.',
     optionA: {
       text: 'Pay the premium. Supplies are supplies.',
-      resources: { funds: 2, clout: 1 },
+      resources: { funds: 3 },
       ideology: 'capitalist',
     },
     optionB: {
       text: 'Too risky. Could be enemy plants.',
-      resources: { trust: 2, media: 1 },
-      ideology: 'idealist',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
   },
 
@@ -253,8 +253,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Precision strikes on their power grid.',
-      resources: { media: 2, clout: 1 },
-      ideology: 'showstopper',
+      resources: { clout: 2, media: 1 },
+      ideology: 'supremo',
     },
   },
   {
@@ -268,7 +268,7 @@ export const ideologyCards: IdeologyCard[] = [
     optionB: {
       text: 'Open negotiations. Stall for time.',
       resources: { media: 2, trust: 1 },
-      ideology: 'showstopper',
+      ideology: 'idealist',
     },
   },
   {
@@ -290,12 +290,12 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Enemy prisoners are slowing your advance. Command wants a decision.',
     optionA: {
       text: 'Secure them in the rear. Geneva protocols apply.',
-      resources: { trust: 3 },
-      ideology: 'idealist',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
     optionB: {
       text: 'Minimal guard. Combat troops stay on the front.',
-      resources: { clout: 2, funds: 1 },
+      resources: { clout: 2, trust: 1 },
       ideology: 'supremo',
     },
   },
@@ -318,13 +318,13 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'The inner fortress is nearly breached. Enemy forces are retreating to the command center.',
     optionA: {
       text: 'Cut off their escape routes first.',
-      resources: { media: 2, clout: 1 },
-      ideology: 'showstopper',
+      resources: { clout: 2, media: 1 },
+      ideology: 'supremo',
     },
     optionB: {
       text: 'Leave them an exit. Cornered prey is dangerous.',
-      resources: { trust: 2, media: 1 },
-      ideology: 'idealist',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
   },
   {
@@ -332,12 +332,12 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Victory is within reach, but your troops are exhausted. Command offers stimulants.',
     optionA: {
       text: 'Distribute the stims. One final push.',
-      resources: { clout: 3 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
     optionB: {
       text: 'Rest rotation. We win this properly.',
-      resources: { trust: 2, funds: 1 },
+      resources: { trust: 2, media: 1 },
       ideology: 'idealist',
     },
   },
@@ -346,8 +346,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'The enemy command center is surrounded. They\'re using human shields.',
     optionA: {
       text: 'Wait them out. Siege tactics.',
-      resources: { trust: 2, media: 1 },
-      ideology: 'idealist',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
     optionB: {
       text: 'Collateral damage is inevitable. Move in.',
@@ -365,12 +365,12 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'The enemy commander has been captured. They\'re requesting a private audience.',
     optionA: {
       text: 'Grant it. Hear what they have to say.',
-      resources: { media: 2, trust: 1 },
-      ideology: 'idealist',
+      resources: { clout: 2, trust: 1 },
+      ideology: 'supremo',
     },
     optionB: {
       text: 'Deny. They\'re a prisoner, nothing more.',
-      resources: { clout: 2, funds: 1 },
+      resources: { clout: 2, media: 1 },
       ideology: 'supremo',
     },
   },
@@ -379,8 +379,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Intel reveals a second enemy force approaching. They\'ll arrive in 12 hours.',
     optionA: {
       text: 'Prepare defensive positions.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
     optionB: {
       text: 'Set up an ambush on their approach.',
@@ -393,13 +393,13 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Local leaders want to discuss the future of the region. They seek guarantees.',
     optionA: {
       text: 'Promise self-governance once stability returns.',
-      resources: { trust: 3 },
-      ideology: 'idealist',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
     optionB: {
       text: 'Install a military administration temporarily.',
-      resources: { clout: 2, funds: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -421,8 +421,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'The second enemy force has arrived. They\'re offering unconditional surrender.',
     optionA: {
       text: 'Accept and disarm them peacefully.',
-      resources: { trust: 3 },
-      ideology: 'idealist',
+      resources: { clout: 2, trust: 1 },
+      ideology: 'supremo',
     },
     optionB: {
       text: 'Demand reparations as part of terms.',
@@ -435,13 +435,13 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Reconstruction begins. Limited resources force a choice.',
     optionA: {
       text: 'Rebuild civilian infrastructure first.',
-      resources: { trust: 2, funds: 1 },
-      ideology: 'idealist',
+      resources: { clout: 2, trust: 1 },
+      ideology: 'supremo',
     },
     optionB: {
       text: 'Secure military installations first.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, media: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -454,7 +454,7 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Operational security first. Limited access.',
-      resources: { media: 1, clout: 2 },
+      resources: { clout: 2, media: 1 },
       ideology: 'supremo',
     },
   },
@@ -482,12 +482,12 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'New orders arrive. Another sector requires stabilization.',
     optionA: {
       text: 'Volunteer your forces. They\'re battle-hardened.',
-      resources: { clout: 2, trust: 1 },
+      resources: { clout: 3 },
       ideology: 'supremo',
     },
     optionB: {
       text: 'Request rotation. Your troops need rest.',
-      resources: { trust: 2, funds: 1 },
+      resources: { trust: 3 },
       ideology: 'idealist',
     },
   },
@@ -496,8 +496,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Intelligence reports insurgent activity in the mountains. Cave networks are extensive.',
     optionA: {
       text: 'Deploy mountain warfare specialists.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
     optionB: {
       text: 'Establish surveillance. Map their movements.',
@@ -510,8 +510,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'A weapons cache is discovered. More than your forces can use.',
     optionA: {
       text: 'Distribute to allied militias.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { trust: 2, clout: 1 },
+      ideology: 'idealist',
     },
     optionB: {
       text: 'Sell surplus through approved channels.',
@@ -529,8 +529,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Vet candidates for security concerns.',
-      resources: { media: 2, clout: 1 },
-      ideology: 'showstopper',
+      resources: { clout: 2, media: 1 },
+      ideology: 'supremo',
     },
   },
   {
@@ -543,8 +543,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Deny transfer. Mission needs come first.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -557,8 +557,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Deny and discredit. Protect the operation.',
-      resources: { media: 2, clout: 1 },
-      ideology: 'showstopper',
+      resources: { clout: 2, media: 1 },
+      ideology: 'supremo',
     },
   },
   {
@@ -571,7 +571,7 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Train local forces for handover.',
-      resources: { trust: 2, funds: 1 },
+      resources: { trust: 3 },
       ideology: 'idealist',
     },
   },
@@ -580,7 +580,7 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Your tour is ending. Command wants a final recommendation for the sector.',
     optionA: {
       text: 'Increase economic investment.',
-      resources: { funds: 2, trust: 1 },
+      resources: { funds: 3 },
       ideology: 'capitalist',
     },
     optionB: {
@@ -604,8 +604,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Deploy immediately. Time is critical.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -627,8 +627,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Local police force offers to coordinate operations. Their loyalty is uncertain.',
     optionA: {
       text: 'Accept partnership. Build local capacity.',
-      resources: { trust: 2, media: 1 },
-      ideology: 'idealist',
+      resources: { clout: 2, media: 1 },
+      ideology: 'supremo',
     },
     optionB: {
       text: 'Operate independently. Trust no one.',
@@ -646,8 +646,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Shut down their network completely.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -655,12 +655,12 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'A humanitarian convoy requests military escort through hostile territory.',
     optionA: {
       text: 'Provide escort. Protecting civilians is our duty.',
-      resources: { trust: 3 },
-      ideology: 'idealist',
+      resources: { clout: 2, trust: 1 },
+      ideology: 'supremo',
     },
     optionB: {
       text: 'Decline. It exposes our forces unnecessarily.',
-      resources: { clout: 2, funds: 1 },
+      resources: { clout: 2, trust: 1 },
       ideology: 'supremo',
     },
   },
@@ -669,8 +669,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Enemy snipers are targeting your patrols from apartment buildings.',
     optionA: {
       text: 'Clear buildings systematically. Minimize casualties.',
-      resources: { trust: 2, clout: 1 },
-      ideology: 'idealist',
+      resources: { media: 2, clout: 1 },
+      ideology: 'showstopper',
     },
     optionB: {
       text: 'Call in airstrikes. Eliminate the threat.',
@@ -697,8 +697,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Enemy forces have taken hostages at a government building.',
     optionA: {
       text: 'Negotiate for their release.',
-      resources: { trust: 2, media: 1 },
-      ideology: 'idealist',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
     optionB: {
       text: 'Storm the building. Swift action saves lives.',
@@ -716,8 +716,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Deny. Operational security is paramount.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, media: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -725,8 +725,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Your forces discover an enemy weapons factory hidden in a residential area.',
     optionA: {
       text: 'Evacuate civilians first, then destroy it.',
-      resources: { trust: 3 },
-      ideology: 'idealist',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
     optionB: {
       text: 'Strike immediately before they can relocate.',
@@ -739,13 +739,13 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Allied special forces request to operate in your sector independently.',
     optionA: {
       text: 'Coordinate operations. Unity is strength.',
-      resources: { trust: 2, clout: 1 },
-      ideology: 'idealist',
+      resources: { media: 2, clout: 1 },
+      ideology: 'showstopper',
     },
     optionB: {
       text: 'Allow independence. Less coordination, less leaks.',
-      resources: { media: 2, clout: 1 },
-      ideology: 'showstopper',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -753,13 +753,13 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Local religious leaders request a meeting to discuss peace terms.',
     optionA: {
       text: 'Accept. All paths to peace should be explored.',
-      resources: { trust: 3 },
-      ideology: 'idealist',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
     optionB: {
       text: 'Decline. They have no authority to negotiate.',
-      resources: { clout: 2, funds: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -781,8 +781,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Enemy commander requests a prisoner exchange.',
     optionA: {
       text: 'Accept. Our people come home.',
-      resources: { trust: 3 },
-      ideology: 'idealist',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
     optionB: {
       text: 'Decline. We don\'t negotiate with the enemy.',
@@ -828,7 +828,7 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Improvised explosives are targeting your patrols. Casualties are mounting.',
     optionA: {
       text: 'Invest in counter-IED technology.',
-      resources: { funds: 2, media: 1 },
+      resources: { funds: 3 },
       ideology: 'capitalist',
     },
     optionB: {
@@ -842,8 +842,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Local tribal elders offer an alliance against the insurgents.',
     optionA: {
       text: 'Accept and arm them.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
     optionB: {
       text: 'Support without weapons. Political solution.',
@@ -861,8 +861,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Shut down the platforms. Silence them.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -876,7 +876,7 @@ export const ideologyCards: IdeologyCard[] = [
     optionB: {
       text: 'No deals. Justice must be served.',
       resources: { clout: 2, trust: 1 },
-      ideology: 'idealist',
+      ideology: 'supremo',
     },
   },
   {
@@ -917,8 +917,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Delay. They need more training.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, media: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -959,8 +959,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Decline. It\'s a delaying tactic.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, media: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -973,8 +973,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Immediate detention. Can\'t risk security.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -1034,8 +1034,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Demand unconditional surrender.',
-      resources: { clout: 2, funds: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -1062,8 +1062,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Wait. Mission isn\'t complete.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, trust: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -1104,8 +1104,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Limited access. Security concerns.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, media: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -1160,8 +1160,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Classify sensitive failures. Protect reputation.',
-      resources: { clout: 2, funds: 1 },
-      ideology: 'supremo',
+      resources: { media: 2, funds: 1 },
+      ideology: 'showstopper',
     },
   },
   {
@@ -1188,8 +1188,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Deny. They haven\'t earned it.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { media: 2, clout: 1 },
+      ideology: 'showstopper',
     },
   },
   {
@@ -1216,8 +1216,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Limited access. Control the narrative.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, media: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -1230,8 +1230,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Quiet departure. The mission speaks for itself.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { media: 2, trust: 1 },
+      ideology: 'showstopper',
     },
   },
 
@@ -1277,8 +1277,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Maximum deployment. Information is power.',
-      resources: { media: 3 },
-      ideology: 'showstopper',
+      resources: { funds: 2, media: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -1291,8 +1291,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Secure borders. Protect our interests.',
-      resources: { clout: 2, funds: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -1333,8 +1333,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Develop counter-space capabilities.',
-      resources: { clout: 2, funds: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, clout: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -1375,8 +1375,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Victory, adaptability, and strength.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { media: 2, clout: 1 },
+      ideology: 'showstopper',
     },
   },
   {
@@ -1389,8 +1389,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Redacted version. Protect sources and methods.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { funds: 2, trust: 1 },
+      ideology: 'capitalist',
     },
   },
   {
@@ -1445,8 +1445,8 @@ export const ideologyCards: IdeologyCard[] = [
     },
     optionB: {
       text: 'Lead with resolve. Victory demands sacrifice.',
-      resources: { clout: 2, media: 1 },
-      ideology: 'supremo',
+      resources: { media: 2, clout: 1 },
+      ideology: 'showstopper',
     },
   },
 ];
