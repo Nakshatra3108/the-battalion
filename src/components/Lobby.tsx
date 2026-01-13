@@ -17,6 +17,8 @@ export default function Lobby({ onJoinRoom, onPlayLocal }: LobbyProps) {
   const [roomCode, setRoomCode] = useState('');
   const [playerId, setPlayerId] = useState('');
   const [showTutorial, setShowTutorial] = useState(false);
+  const [showBugReport, setShowBugReport] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
 
   useEffect(() => {
     let storedId = sessionStorage.getItem('shasn_player_id');
@@ -176,21 +178,7 @@ export default function Lobby({ onJoinRoom, onPlayLocal }: LobbyProps) {
             </a>
 
             <button
-              onClick={async () => {
-                const email = 'theplotarmour@gmail.com';
-                // Always copy to clipboard first
-                try {
-                  await navigator.clipboard.writeText(email);
-                } catch (e) {
-                  // Clipboard failed, continue anyway
-                }
-                // Then try to open mail client
-                window.location.href = `mailto:${email}?subject=Bug%20Report%20-%20The%20Battalion`;
-                // Show confirmation after a short delay
-                setTimeout(() => {
-                  alert(`If your email client didn't open:\n\nEmail: ${email}\n\n(Email address has been copied to clipboard)`);
-                }, 500);
-              }}
+              onClick={() => setShowBugReport(true)}
               className="w-full py-3 bg-[#0a0a0a] hover:bg-[#f44336]/20 border border-[#f44336]/50 text-[#f44336]/80 hover:text-[#f44336] uppercase tracking-wider font-bold rounded transition-all hover:shadow-[0_0_15px_rgba(244,67,54,0.3)] flex items-center justify-center gap-3"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -293,6 +281,55 @@ export default function Lobby({ onJoinRoom, onPlayLocal }: LobbyProps) {
           animation: scan 4s linear infinite;
         }
       `}</style>
+
+      {/* Bug Report Modal */}
+      {showBugReport && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50" onClick={() => setShowBugReport(false)}>
+          <div
+            className="bg-[#0a0a0a] border-2 border-[#f44336] rounded-xl p-6 max-w-md mx-4 shadow-[0_0_40px_rgba(244,67,54,0.4)]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-xl font-bold text-[#f44336] uppercase tracking-widest mb-4 text-center">Report a Bug</h3>
+            <p className="text-gray-400 text-sm mb-4 text-center">Send your bug report to:</p>
+
+            <div className="bg-[#1a1a1a] border border-[#4caf50]/50 rounded-lg p-4 mb-4 flex items-center justify-between gap-3">
+              <span className="text-[#4caf50] font-mono text-lg select-all">theplotarmour@gmail.com</span>
+              <button
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText('theplotarmour@gmail.com');
+                    setEmailCopied(true);
+                    setTimeout(() => setEmailCopied(false), 2000);
+                  } catch (e) {
+                    // Fallback for older browsers
+                    const textArea = document.createElement('textarea');
+                    textArea.value = 'theplotarmour@gmail.com';
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    setEmailCopied(true);
+                    setTimeout(() => setEmailCopied(false), 2000);
+                  }
+                }}
+                className={`px-4 py-2 rounded font-bold uppercase text-sm transition-all ${emailCopied
+                    ? 'bg-[#4caf50] text-black'
+                    : 'bg-[#4caf50]/20 text-[#4caf50] hover:bg-[#4caf50]/40'
+                  }`}
+              >
+                {emailCopied ? '✓ COPIED!' : 'COPY'}
+              </button>
+            </div>
+
+            <button
+              onClick={() => setShowBugReport(false)}
+              className="w-full py-3 border border-gray-600 text-gray-400 hover:text-white hover:border-gray-400 rounded uppercase tracking-wider font-bold transition-all"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
