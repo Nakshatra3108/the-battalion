@@ -176,18 +176,20 @@ export default function Lobby({ onJoinRoom, onPlayLocal }: LobbyProps) {
             </a>
 
             <button
-              onClick={() => {
+              onClick={async () => {
                 const email = 'theplotarmour@gmail.com';
-                const mailtoUrl = `mailto:${email}?subject=Bug%20Report%20-%20The%20Battalion`;
-                const newWindow = window.open(mailtoUrl, '_blank');
-                // If mailto didn't work (no email client), copy email to clipboard
-                if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-                  navigator.clipboard.writeText(email).then(() => {
-                    alert(`Email copied to clipboard: ${email}\n\nPlease send your bug report to this address.`);
-                  }).catch(() => {
-                    alert(`Please send bug reports to: ${email}`);
-                  });
+                // Always copy to clipboard first
+                try {
+                  await navigator.clipboard.writeText(email);
+                } catch (e) {
+                  // Clipboard failed, continue anyway
                 }
+                // Then try to open mail client
+                window.location.href = `mailto:${email}?subject=Bug%20Report%20-%20The%20Battalion`;
+                // Show confirmation after a short delay
+                setTimeout(() => {
+                  alert(`If your email client didn't open:\n\nEmail: ${email}\n\n(Email address has been copied to clipboard)`);
+                }, 500);
               }}
               className="w-full py-3 bg-[#0a0a0a] hover:bg-[#f44336]/20 border border-[#f44336]/50 text-[#f44336]/80 hover:text-[#f44336] uppercase tracking-wider font-bold rounded transition-all hover:shadow-[0_0_15px_rgba(244,67,54,0.3)] flex items-center justify-center gap-3"
             >
