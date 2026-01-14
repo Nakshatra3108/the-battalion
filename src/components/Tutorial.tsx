@@ -103,10 +103,10 @@ const SLIDES = [
         <p className="text-gray-300 text-sm text-center">You have 4 types of currency. Maximum 12 total resources!</p>
 
         <div className="space-y-2">
-          <div className="flex items-center gap-3 bg-[#ffeb3b]/10 border border-[#ffeb3b]/30 rounded-lg p-3">
-            <span className="text-2xl">🟡</span>
+          <div className="flex items-center gap-3 bg-[#4caf50]/10 border border-[#4caf50]/30 rounded-lg p-3">
+            <span className="text-2xl">🟢</span>
             <div>
-              <p className="text-[#ffeb3b] font-bold uppercase tracking-wider">Supply</p>
+              <p className="text-[#4caf50] font-bold uppercase tracking-wider">Supply</p>
               <p className="text-gray-400 text-xs">Used for purchasing units (Economy)</p>
             </div>
           </div>
@@ -119,18 +119,18 @@ const SLIDES = [
             </div>
           </div>
 
-          <div className="flex items-center gap-3 bg-[#9c27b0]/10 border border-[#9c27b0]/30 rounded-lg p-3">
-            <span className="text-2xl">🟣</span>
+          <div className="flex items-center gap-3 bg-[#5AB4FF]/10 border border-[#5AB4FF]/30 rounded-lg p-3">
+            <span className="text-2xl">🔵</span>
             <div>
-              <p className="text-[#9c27b0] font-bold uppercase tracking-wider">Intel</p>
-              <p className="text-gray-400 text-xs">Used for spying and speed (Info)</p>
+              <p className="text-[#5AB4FF] font-bold uppercase tracking-wider">Intel</p>
+              <p className="text-gray-400 text-xs">Used for spying and information</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 bg-[#03a9f4]/10 border border-[#03a9f4]/30 rounded-lg p-3">
-            <span className="text-2xl">🔵</span>
+          <div className="flex items-center gap-3 bg-[#FFC734]/10 border border-[#FFC734]/30 rounded-lg p-3">
+            <span className="text-2xl">🟡</span>
             <div>
-              <p className="text-[#03a9f4] font-bold uppercase tracking-wider">Morale</p>
+              <p className="text-[#FFC734] font-bold uppercase tracking-wider">Morale</p>
               <p className="text-gray-400 text-xs">Used for defense and conversion (Loyalty)</p>
             </div>
           </div>
@@ -223,26 +223,26 @@ const SLIDES = [
         <p className="text-gray-300 text-sm text-center">Level up 4 commander tracks for powerful abilities</p>
 
         <div className="grid grid-cols-2 gap-2 text-xs">
-          <div className="bg-[#ffeb3b]/10 border border-[#ffeb3b]/30 rounded-lg p-2">
-            <p className="text-[#ffeb3b] font-bold uppercase">🟡 Strategist</p>
+          <div className="bg-[#4caf50]/10 border border-[#4caf50]/30 rounded-lg p-2">
+            <p className="text-[#4caf50] font-bold uppercase">🟢 Contractor</p>
             <p className="text-gray-400">L3: Trade resources</p>
             <p className="text-gray-400">L5: Evict enemy unit</p>
           </div>
 
           <div className="bg-[#f44336]/10 border border-[#f44336]/30 rounded-lg p-2">
-            <p className="text-[#f44336] font-bold uppercase">🔴 Warlord</p>
+            <p className="text-[#f44336] font-bold uppercase">🔴 Hardliner</p>
             <p className="text-gray-400">L3: Steal resources</p>
             <p className="text-gray-400">L5: Destroy unit</p>
           </div>
 
-          <div className="bg-[#9c27b0]/10 border border-[#9c27b0]/30 rounded-lg p-2">
-            <p className="text-[#9c27b0] font-bold uppercase">🟣 Tactician</p>
+          <div className="bg-[#5AB4FF]/10 border border-[#5AB4FF]/30 rounded-lg p-2">
+            <p className="text-[#5AB4FF] font-bold uppercase">🔵 Operative</p>
             <p className="text-gray-400">L3: +1 free battalion</p>
             <p className="text-gray-400">L5: Move 2 units/sector</p>
           </div>
 
-          <div className="bg-[#03a9f4]/10 border border-[#03a9f4]/30 rounded-lg p-2">
-            <p className="text-[#03a9f4] font-bold uppercase">🔵 Diplomat</p>
+          <div className="bg-[#FFC734]/10 border border-[#FFC734]/30 rounded-lg p-2">
+            <p className="text-[#FFC734] font-bold uppercase">🟡 Diplomat</p>
             <p className="text-gray-400">L3: Purchase discount</p>
             <p className="text-gray-400">L5: Convert enemies</p>
           </div>
@@ -268,29 +268,29 @@ const SLIDES = [
             <p className="text-gray-400">Block a redeployment</p>
           </div>
           <div className="bg-black/40 border border-[#f44336]/30 rounded-lg p-2">
-            <p className="text-[#f44336] font-bold">COUP</p>
+            <p className="text-[#f44336] font-bold">SURGICAL STRIKE</p>
             <p className="text-gray-400">Destroy an enemy unit</p>
           </div>
-          <div className="bg-black/40 border border-[#ff9800]/30 rounded-lg p-2">
-            <p className="text-[#ff9800] font-bold">BRIBE</p>
-            <p className="text-gray-400">Steal 2 resources</p>
+          <div className="bg-black/40 border border-[#FFC734]/30 rounded-lg p-2">
+            <p className="text-[#FFC734] font-bold">ASSET SEIZURE</p>
+            <p className="text-gray-400">Steal 2 resources of a type</p>
           </div>
-          <div className="bg-black/40 border border-[#ff9800]/30 rounded-lg p-2">
-            <p className="text-[#ff9800] font-bold">SCANDAL</p>
+          <div className="bg-black/40 border border-[#FFC734]/30 rounded-lg p-2">
+            <p className="text-[#FFC734] font-bold">SABOTAGE</p>
             <p className="text-gray-400">All enemies lose 1 resource</p>
           </div>
-          <div className="bg-black/40 border border-[#9c27b0]/30 rounded-lg p-2">
-            <p className="text-[#9c27b0] font-bold">DEFECTION</p>
+          <div className="bg-black/40 border border-[#5AB4FF]/30 rounded-lg p-2">
+            <p className="text-[#5AB4FF] font-bold">FORCE REDEPLOY</p>
             <p className="text-gray-400">Force-move enemy unit</p>
           </div>
           <div className="bg-black/40 border border-[#4caf50]/30 rounded-lg p-2">
             <p className="text-[#4caf50] font-bold">INTEL SWEEP</p>
-            <p className="text-gray-400">Gain 4 resources</p>
+            <p className="text-gray-400">Gain 4 resources of each</p>
           </div>
         </div>
 
         <div className="bg-[#f44336]/10 border border-[#f44336]/30 rounded-lg p-2 text-center">
-          <p className="text-[#f44336] text-xs">Cost: 3 resources of any mix to draw a card</p>
+          <p className="text-[#f44336] text-xs">Purchase cards with resources to get tactical advantages!</p>
         </div>
       </div>
     ),

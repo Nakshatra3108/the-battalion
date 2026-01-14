@@ -660,7 +660,7 @@ export default function LandingPage({ onJoinRoom, onPlayLocal }: LandingPageProp
 
                 {/* Footer */}
                 <div className={`mt-8 text-center transform transition-all duration-1000 delay-500 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'}`}>
-                    <p className="text-white/30 text-xs tracking-wider font-mono">© 2024 THE BATTALION // ALL RIGHTS RESERVED</p>
+                    <p className="text-white/30 text-xs tracking-wider font-mono">© 2026 THE BATTALION // ALL RIGHTS RESERVED</p>
                 </div>
             </div>
 

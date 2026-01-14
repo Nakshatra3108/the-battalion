@@ -69,8 +69,8 @@ THE 4 SECTOR TYPES:
    - Value: 11 Points.
    - Strategy: Massive score boost. Securing one of these is worth almost TWO corners.
 
-HOT ZONES (⚡):
-Some slots have a RED LIGHTNING BOLT status.
+HOT ZONES (!):
+Some slots have a RED EXCLAIMATION MARK status.
 - **Rule 1:** Placing a unit here triggers a Random Event Card (Flashpoint).
 - **Rule 2:** Units here became PERMANENT. They can never move.
 - **Rule 3:** They check for "Control" just like normal units.
@@ -84,10 +84,10 @@ SECTION 3: RESOURCES (MONEY)
 You have 4 types of currency. You can hold a MAXIMUM of 12 Total Resources.
 Any excess resources are lost immediately!
 
-1. 🟡 SUPPLY (Funds)    : Used for purchasing units (Economy).
-2. 🔴 FIREPOWER (Clout) : Used for attacking enemies (Force).
-3. 🟣 INTEL (Media)     : Used for spying and speed (Info).
-4. 🔵 MORALE (Trust)    : Used for defense and conversion (Loyalty).
+1. 🟢 SUPPLY    : Used for purchasing units (Economy).
+2. 🔴 FIREPOWER : Used for attacking enemies (Force).
+3. 🔵 INTEL     : Used for spying and speed (Information).
+4. 🟡 MORALE    : Used for defense and conversion (Loyalty).
 
 --------------------------------------------------------------------------------
 
@@ -96,17 +96,20 @@ SECTION 4: TURN SEQUENCE (STEP-BY-STEP)
 ================================================================================
 
 GAME START:
-Players are assigned a random turn order.
-- Player 1 starts with 6 Resources.
-- Player 2 starts with 7 Resources.
-- (And so on... giving later players a slight resource handicap).
+Players are assigned by voting.
+- Player 1 starts with 4 Resources.
+- Player 2 starts with 5 Resources.
+- Player 3 starts with 6 Resources.
+- Player 4 starts with 7 Resources.
+- Player 5 starts with 8 Resources.
+- (Giving later players a slight resource handicap and early players position handicap).
 
 ON YOUR TURN, YOU DO THESE 4 STEPS IN ORDER:
 
 --------------------------------------------------------------------------------
 STEP 1: SITUATION REPORT (GETTING PAID)
 --------------------------------------------------------------------------------
-A card appears with a story dilemma and 4 choices.
+A card appears with a story dilemma and 2 choices (Can be of any of the 4 Commanders).
 - Pick one choice.
 - **Gain Resources:** You get the resources shown on the card (usually 2-4).
 - **Gain XP:** You level up the Commander associated with that color.
@@ -127,21 +130,20 @@ Buy "Deployment Orders" from the shop.
 *Tip: Buying large batches is slightly more efficient.*
 
 ACTION B: BLACK OPS (BUYING CARDS)
-- Pay 3 Resources (Any mix) to draw a "Conspiracy Card".
-- Keep it hidden. Max hand size is 3.
+- Pay Resources to buy a "Black Ops Card".
 
 ACTION C: PLAY CARDS
 - Play a Black Ops card from your hand.
 
-ACTION D: USE POWERS
-- If you have unlocked Level 3 or 5 powers, click them to use them.
+ACTION D: USE COMMANDER POWERS
+- If you have unlocked Level 3 or 5 powers of any Commander, click them to use them.
 
 --------------------------------------------------------------------------------
 STEP 3: DEPLOYMENT (PLACING UNITS)
 --------------------------------------------------------------------------------
 You MUST place all the units you just bought.
 - Click any EMPTY slot on the map.
-- If you click a HOT ZONE (⚡), a Flashpoint event happens immediately (read the popup!).
+- If you click a HOT ZONE (!), a Flashpoint event happens immediately (read the popup!).
 
 *Core Rule: You cannot end your turn with units still in reserve.*
 
@@ -160,7 +162,7 @@ You can move units around the map for free. BUT there are strict rules.
    - The first 6 are LOCKED (Statues). They stay to hold the point.
    - The extra 2 are UNLOCKED. You can move these 2.
 
-3. **The "Adjacency" Rule:** You can only move to a neighbor sector connected by a line.
+3. **The "Adjacency" Rule:** You can only move to a neighbor sector.
 
 4. **The "Hostile" Rule:** You can move ANY Unlocked unit. Even enemy units!
    - Use this to kick enemy squatters out of your territory!
@@ -173,22 +175,22 @@ SECTION 5: THE COMMANDERS (YOUR POWERS)
 
 Every time you answer a Situation Report (Step 1), you level up one of 4 tracks.
 
-TRACK 1: THE STRATEGIST (Yellow/Supply) - "The Tycoon"
+TRACK 1: THE CONTRACTOR (Green/Supply)
 - **Level 2 (Passive):** Gain +1 EXTRA Supply every time you answer a generic card (Limit: once per turn).
 - **Level 3 (Active):** "Prospecting" - Pay 1 Resource, Get 2 Random Resources back.
 - **Level 5 (Ultimate):** "Supply Blockade" - Kick a unit off the map! It goes back to the opponent's reserve. Great for breaking their control.
 
-TRACK 2: THE WARLORD (Red/Firepower) - "The Aggressor"
+TRACK 2: THE HARDLINER (Red/Firepower)
 - **Level 2 (Passive):** Gain +1 EXTRA Firepower every time you answer a card.
 - **Level 3 (Active):** "Donations" - Steal 1 Resource from an opponent.
 - **Level 5 (Ultimate):** "Kinetic Strike" - DESTROY a unit. It is removed from the game permanently.
 
-TRACK 3: THE TACTICIAN (Purple/Intel) - "The Spy"
+TRACK 3: THE OPERATIVE (Blue/Intel)
 - **Level 2 (Passive):** Gain +1 EXTRA Intel every time you answer a card.
 - **Level 3 (Active):** "Going Viral" - When you buy a Battalion, get +1 extra unit for FREE.
 - **Level 5 (Ultimate):** "Election Fever" - Normal Redeployment only lets you move 1 unit per sector. This power lets you move 2!
 
-TRACK 4: THE DIPLOMAT (Blue/Morale) - "The Politician"
+TRACK 4: THE DIPLOMAT (Yellow/Morale)
 - **Level 2 (Passive):** Gain +1 EXTRA Morale every time you answer a card.
 - **Level 3 (Active):** "Local Coalition" - Get a 1-Resource DISCOUNT on any purchase.
 - **Level 5 (Ultimate):** "Tough Love" - Pay large cost to CONVERT 2 enemy units into YOUR units.
@@ -201,33 +203,42 @@ SECTION 6: BLACK OPS REFERENCE (CHEAT SHEET)
 
 Use these cards to break the rules.
 
-1. **TACTICAL VETO**: Block a Redeployment. (Say "No" when someone tries to move).
-2. **FORTIFIED POSITION**: Make a Sector immune to movement for a round.
-3. **BRIBE**: Steal 2 Resources from a player.
-4. **SCANDAL**: All enemies lose 1 Resource.
-5. **COUP**: Destroy an enemy unit (Specific snipe).
-6. **DEFECTION**: Force-move an enemy unit to a neighbor sector.
-7. **SHUFFLE**: Swap places of any two units on the board.
-8. **INTEL SWEEP**: Gain 4 Resources instantly.
-9. **RAPID RESPONSE**: Take an EXTRA TURN immediately! (Very rare).
+1. **TACTICAL VETO**: Block a Redeployment.
+2. **FORTIFIED POSITION**: Make a Sector immune to Redeployment for a round.
+3. **ASSET SEIZURE**: Steal 2 Resources of a type from a player.
+4. **SABOTAGE**: All enemies lose 1 Resource of your choice.
+5. **SURGICAL STRIKE**: Destroy an enemy unit (Not Hot Zone/Statues).
+6. **SUPPLY RAID**: Steal 1 Resource from all enemies.
+7. **FORCE REDEPLOY**: Force-move an enemy unit to a neighbor sector (Not Hot Zone/Statues).
+8. **TACTICAL SHUFFLE**: Swap places of any two units on the board (Not Hot Zone/Statues).
+9. **INTEL SWEEP**: Gain 4 Resources (of each type) instantly.
+10.**RAPID RESPONSE**: Take an EXTRA TURN.
 
 ================================================================================
-SECTION 7: FAQ (FOR NEW PLAYERS)
+SECTION 7: User Interface
 ================================================================================
 
-Q: Can I move units out of a Hot Zone?
-A: NO. Hot Zones are permanent traps. Once in, never out.
+The Battalion uses a retro-futuristic military terminal interface, blending cold-war command aesthetics with modern grid-logic clarity. The entire game’s visual theme is built around the following core pillars:
 
-Q: Can I destroy a Locked unit?
-A: YES! Warlord Level 5 (Kinetic Strike) can destroy locked units. If you do, the opponent drops below >50% and LOSES CONTROL of the sector immediately.
+Primary Color:
+Neon Tactical Green (#00FF6A)
+Used for all UI lines, sector borders, buttons, and system text.
 
-Q: I have 5 units in the center (Nexus). Why can't I move?
-A: The Center capacity is 9. Majority is 5.
-   - If you have exactly 5, they are ALL Locked (5 needed for control).
-   - You need a 6th unit (5 Locked + 1 Unlocked) to start moving/redeploying.
+Secondary Colors:
 
-Q: Does "Passive" bonus stack?
-A: Yes. If you are Level 2 Strategist AND Level 2 Warlord, you get +1 Supply AND +1 Firepower every turn.
+Warning Red (#FF3B30) → Alerts, hot zones, errors, destruction indicators and Black Ops.
+
+Fire Red → Hardliner-related and Firepower.
+
+Natural Green → Contractor-related and supply.
+
+Signal Blue (#5AB4FF) → Intel-related UI, network status, agent highlights.
+
+Support Yellow (#FFC734) → Morale indicators, diplomacy and soft actions.
+
+Ambient Black (#000000) → Background and negative space.
+
+This color hierarchy ensures that players can instantly identify threat, safety, interactable elements, and system responses.
 
 ================================================================================
 END OF MASTER GUIDE
