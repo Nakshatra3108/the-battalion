@@ -15,6 +15,8 @@ const SLIDES = [
   '/slides/slide-4.png',
   '/slides/slide-5.png',
   '/slides/slide-6.png',
+  '/slides/slide-7.png',
+  '/slides/slide-8.png',
 ];
 
 export default function Tutorial({ onClose }: TutorialProps) {

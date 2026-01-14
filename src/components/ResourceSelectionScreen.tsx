@@ -57,9 +57,19 @@ export default function ResourceSelectionScreen({
 
   if (!currentPlayer || !state.resourceSelection) {
     return (
-      <div className="min-h-screen flex items-center justify-center font-mono bg-black">
-        <div className="text-center p-8 rounded-lg border-2 border-[#4caf50]" style={{ backgroundColor: '#0a0a0a' }}>
-          <h2 className="text-2xl font-bold text-[#4caf50] mb-4 animate-pulse uppercase tracking-widest">
+      <div className="min-h-screen flex items-center justify-center font-mono war-bg relative overflow-hidden">
+        {/* War Theme Background */}
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <div className="absolute inset-0 tactical-grid-bg opacity-20" />
+          <div className="absolute inset-0" style={{
+            background: 'linear-gradient(to top, rgba(30,25,20,0.5) 0%, transparent 60%)'
+          }} />
+        </div>
+        <div className="war-vignette" />
+
+        <div className="text-center p-8 rounded-lg war-panel relative z-10">
+          <div className="military-spinner mx-auto mb-4" />
+          <h2 className="military-header text-xl mb-4">
             AWAITING SATELLITE UPLINK...
           </h2>
         </div>
@@ -68,24 +78,51 @@ export default function ResourceSelectionScreen({
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-black">
-      {/* Background grid */}
-      <div className="absolute inset-0 opacity-10" style={{
-        backgroundImage: `
-          linear-gradient(rgba(76, 175, 80, 0.5) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(76, 175, 80, 0.5) 1px, transparent 1px)
-        `,
-        backgroundSize: '40px 40px',
-      }} />
+    <div className="min-h-screen flex items-center justify-center p-4 war-bg relative overflow-hidden">
+      {/* War Theme Background Effects */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        {/* Tactical Grid */}
+        <div className="absolute inset-0 tactical-grid-bg opacity-30" />
 
-      <div className="relative max-w-lg w-full rounded-lg p-6 border-2 border-[#4caf50]" style={{ backgroundColor: '#0a0a0a' }}>
+        {/* Smoke Overlay */}
+        <div className="absolute inset-0" style={{
+          background: 'linear-gradient(to top, rgba(30,25,20,0.6) 0%, rgba(20,18,15,0.3) 40%, transparent 70%)'
+        }} />
+
+        {/* Fire Glow Effects */}
+        <div className="fire-glow" style={{ bottom: '5%', left: '20%', width: '90px', height: '60px', background: 'radial-gradient(ellipse, rgba(255,100,30,0.3) 0%, transparent 70%)' }} />
+        <div className="fire-glow" style={{ bottom: '8%', right: '12%', width: '70px', height: '50px', background: 'radial-gradient(ellipse, rgba(255,80,20,0.25) 0%, transparent 70%)', animationDelay: '2s' }} />
+      </div>
+
+      {/* Vignette */}
+      <div className="war-vignette" />
+
+      {/* Radar Display - Top Right */}
+      <div className="fixed top-4 right-4 z-20 pointer-events-none opacity-40">
+        <div className="radar-sweep w-16 h-16">
+          <div className="absolute inset-2 rounded-full border border-[#4caf50]/20" />
+          <div className="absolute inset-4 rounded-full border border-[#4caf50]/10" />
+        </div>
+      </div>
+
+      {/* Status Panel - Top Left */}
+      <div className="fixed top-4 left-4 z-20 pointer-events-none opacity-60">
+        <div className="tactical-status-bar rounded px-3 py-2">
+          <div className="flex items-center gap-2 text-[#4caf50] text-xs">
+            <div className="status-dot status-dot-warning" />
+            <span className="uppercase tracking-wider">LOADOUT</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative max-w-lg w-full rounded-lg p-6 war-panel z-10">
         {/* Corner brackets */}
         <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#4caf50]" />
         <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-[#4caf50]" />
         <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-[#4caf50]" />
         <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-[#4caf50]" />
 
-        <h1 className="text-2xl font-bold text-center mb-2 text-[#4caf50] uppercase tracking-widest" style={{ fontFamily: 'var(--font-header)', textShadow: '0 0 15px rgba(76,175,80,0.5)' }}>
+        <h1 className="military-header text-2xl text-center mb-2">
           MISSION LOADOUT
         </h1>
         <p className="text-center mb-6 font-mono uppercase tracking-widest text-xs text-white/60">
@@ -158,7 +195,7 @@ export default function ResourceSelectionScreen({
           className={`
             w-full py-4 font-bold text-lg uppercase tracking-widest transition-all duration-300 rounded
             ${totalSelected === allowedAmount
-              ? 'bg-[#4caf50] text-black border-2 border-[#4caf50] hover:bg-[#66bb6a]'
+              ? 'bg-[#4caf50] text-black border-2 border-[#4caf50] hover:bg-[#66bb6a] shadow-[0_0_20px_rgba(76,175,80,0.4)]'
               : 'bg-black text-white/30 border border-white/20 cursor-not-allowed'}
           `}
           style={{ fontFamily: 'var(--font-header)' }}

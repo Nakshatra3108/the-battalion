@@ -13,7 +13,7 @@ import PhaseIndicator from './PhaseIndicator';
 import GameLog from './GameLog';
 import GameOverScreen from './GameOverScreen';
 import SetupScreen from './SetupScreen';
-import Lobby from './Lobby';
+import LandingPage from './LandingPage';
 import MultiplayerGame from './MultiplayerGame';
 import ConspiracyCardShop from './ConspiracyCardShop';
 import HeadlineDisplay from './HeadlineDisplay';
@@ -321,7 +321,7 @@ export default function Game() {
 
   // Show lobby
   if (mode === 'lobby') {
-    return <Lobby onJoinRoom={handleJoinRoom} onPlayLocal={handlePlayLocal} />;
+    return <LandingPage onJoinRoom={handleJoinRoom} onPlayLocal={handlePlayLocal} />;
   }
 
   // Show online multiplayer
@@ -434,7 +434,25 @@ export default function Game() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0e14] text-white">
+    <div className="min-h-screen relative overflow-hidden bg-[#0a0a08] text-white">
+      {/* Military Corner Brackets - Match LandingPage */}
+      <div className="fixed inset-0 z-[5] pointer-events-none">
+        <div className="absolute top-2 left-2 w-16 h-16 border-l-2 border-t-2 border-[#4caf50]/50" />
+        <div className="absolute top-2 right-2 w-16 h-16 border-r-2 border-t-2 border-[#4caf50]/50" />
+        <div className="absolute bottom-2 left-2 w-16 h-16 border-l-2 border-b-2 border-[#4caf50]/50" />
+        <div className="absolute bottom-2 right-2 w-16 h-16 border-r-2 border-b-2 border-[#4caf50]/50" />
+      </div>
+
+      {/* Scanline Effect */}
+      <div className="fixed inset-0 z-[4] pointer-events-none opacity-[0.02]" style={{
+        backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(76,175,80,0.1) 2px, rgba(76,175,80,0.1) 4px)',
+      }} />
+
+      {/* Vignette */}
+      <div className="fixed inset-0 pointer-events-none z-[3]" style={{
+        background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)'
+      }} />
+
       {/* Phone Blocker */}
       <PhoneBlocker />
 
@@ -485,7 +503,7 @@ export default function Game() {
       <div className="flex h-screen">
         {/* Left Sidebar - Hidden on mobile */}
         <div
-          className={`hidden md:block ${isSidebarOpen ? 'w-64 lg:w-80' : 'w-0'} bg-[#0a0a0a] border-r border-[#4caf50]/30 flex-shrink-0 transition-all duration-300 relative`}
+          className={`hidden md:block ${isSidebarOpen ? 'w-64 lg:w-80' : 'w-0'} bg-black/80 backdrop-blur-sm border-r border-[#4caf50]/30 flex-shrink-0 transition-all duration-300 relative z-10`}
         >
           {/* Toggle Button */}
           <button
@@ -521,8 +539,8 @@ export default function Game() {
         </div>
 
         {/* Main Game Area - Board (Center Column) */}
-        <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0a0a0a] relative">
-          <div className="px-3 py-2 bg-[#0a0a0a] border-b border-[#4caf50]/30 shrink-0 flex justify-between items-center z-20 relative">
+        <div className="flex-1 flex flex-col h-full overflow-hidden relative z-10">
+          <div className="px-3 py-2 bg-black/80 backdrop-blur-sm border-b border-[#4caf50]/30 shrink-0 flex justify-between items-center z-20 relative">
             <PhaseIndicator
               phase={state.phase}
               turnNumber={state.turnNumber}
@@ -540,7 +558,7 @@ export default function Game() {
           </div>
 
           {/* Center Pane: Game Board + Popups */}
-          <div className="flex-1 relative overflow-hidden z-0 bg-[#0a0a0a]">
+          <div className="flex-1 relative overflow-hidden z-0">
 
             {/* The Game Board - Full Size (Base Layer) */}
             <div className="absolute inset-0 z-10">
@@ -576,10 +594,10 @@ export default function Game() {
         </div>
 
         {/* Right Sidebar - Action Center */}
-        <div className="hidden sm:flex w-48 md:w-64 lg:w-80 bg-[#0a0a0a] border-l-2 border-[#4caf50]/50 flex-col flex-shrink-0 z-20 shadow-[0_0_20px_rgba(76,175,80,0.1)] relative font-mono">
+        <div className="hidden sm:flex w-48 md:w-64 lg:w-80 bg-black/80 backdrop-blur-sm border-l-2 border-[#4caf50]/50 flex-col flex-shrink-0 z-20 shadow-[0_0_20px_rgba(76,175,80,0.1)] relative font-mono">
 
           {/* Header with Game Log Toggle */}
-          <div className="px-3 py-2 bg-[#0a0a0a] border-b border-[#4caf50]/30 flex justify-between items-center shrink-0">
+          <div className="px-3 py-2 bg-black/60 border-b border-[#4caf50]/30 flex justify-between items-center shrink-0">
             <span className="font-bold text-[#4caf50] uppercase tracking-widest text-xs" style={{ textShadow: '0 0 8px rgba(76,175,80,0.5)' }}>
               {showGameLog ? 'COMMS LOG' : 'ACTIONS'}
             </span>

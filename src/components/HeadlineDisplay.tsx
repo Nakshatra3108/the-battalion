@@ -27,26 +27,32 @@ export default function HeadlineDisplay({ headline, onDismiss }: HeadlineDisplay
   if (!isVisible || !headline) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 animate-fade-in">
-      <div className="bg-gray-900 border-2 border-yellow-500 rounded-xl p-6 max-w-md mx-4 shadow-2xl transform animate-bounce-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none p-8">
+      <div className="pointer-events-auto bg-black/95 border-2 border-[#ff9800]/50 rounded-xl p-6 max-w-md w-full mx-4 shadow-[0_0_40px_rgba(255,152,0,0.4)] animate-bounce-in">
+        {/* Corner brackets */}
+        <div className="absolute top-2 left-2 w-5 h-5 border-t-2 border-l-2 border-[#ff9800]" />
+        <div className="absolute top-2 right-2 w-5 h-5 border-t-2 border-r-2 border-[#ff9800]" />
+        <div className="absolute bottom-2 left-2 w-5 h-5 border-b-2 border-l-2 border-[#ff9800]" />
+        <div className="absolute bottom-2 right-2 w-5 h-5 border-b-2 border-r-2 border-[#ff9800]" />
+
         {/* Flashpoint Header */}
-        <div className="text-center border-b-2 border-yellow-500 pb-3 mb-4">
-          <div className="flex items-center justify-center gap-2 text-yellow-500 text-xs mb-1">
-            <span>⚠️ FLASHPOINT ⚠️</span>
+        <div className="text-center border-b-2 border-[#ff9800]/50 pb-3 mb-4">
+          <div className="flex items-center justify-center gap-2 text-[#ff9800] text-xs mb-1">
+            <span className="transmission-text">⚠️ FLASHPOINT ⚠️</span>
           </div>
-          <h2 className="text-2xl font-bold text-white font-serif">
+          <h2 className="text-2xl font-bold text-white font-mono uppercase tracking-widest" style={{ textShadow: '0 0 10px rgba(255,152,0,0.5)' }}>
             {headline.title}
           </h2>
         </div>
 
         {/* Description */}
-        <p className="text-gray-300 text-center mb-4 italic">
+        <p className="text-gray-300 text-center mb-4 italic font-mono">
           "{headline.description}"
         </p>
 
         {/* Effect Badge */}
-        <div className="bg-yellow-900/30 border border-yellow-600 rounded-lg p-3 text-center mb-4">
-          <span className="text-yellow-400 text-sm font-medium">
+        <div className="bg-[#ff9800]/10 border border-[#ff9800]/50 rounded-lg p-3 text-center mb-4">
+          <span className="text-[#ff9800] text-sm font-medium font-mono uppercase tracking-wider">
             Effect: {getEffectDescription(headline)}
           </span>
         </div>
@@ -58,7 +64,7 @@ export default function HeadlineDisplay({ headline, onDismiss }: HeadlineDisplay
               setIsVisible(false);
               onDismiss();
             }}
-            className="w-full py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-bold rounded-lg transition-colors"
+            className="w-full py-2 bg-[#ff9800] hover:bg-[#f57c00] text-black font-bold rounded-lg transition-colors uppercase tracking-widest shadow-[0_0_15px_rgba(255,152,0,0.4)]"
           >
             Continue
           </button>
