@@ -339,15 +339,7 @@ export default function Game() {
   // Local game - show setup screen if not initialized
   if (mode === 'local' && (!isInitialized || !state)) {
     return (
-      <div>
-        <button
-          onClick={handleBackToLobby}
-          className="fixed top-4 left-4 z-50 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg"
-        >
-          ← Back
-        </button>
-        <SetupScreen onStart={startGame} />
-      </div>
+      <SetupScreen onStart={startGame} onBack={handleBackToLobby} />
     );
   }
 

@@ -6,12 +6,15 @@ import { gameTitle, gameSubtitle } from '@/data/displayNames';
 
 interface SetupScreenProps {
   onStart: (playerNames: string[], playerColors: string[]) => void;
+  onBack: () => void;
 }
 
-export default function SetupScreen({ onStart }: SetupScreenProps) {
+export default function SetupScreen({ onStart, onBack }: SetupScreenProps) {
   const [playerCount, setPlayerCount] = useState(2);
   const [playerNames, setPlayerNames] = useState(['Operative 1', 'Operative 2', 'Operative 3', 'Operative 4', 'Operative 5']);
   const [shuffledColors, setShuffledColors] = useState<string[]>([]);
+
+  // ... (keep state logic same)
 
   React.useEffect(() => {
     // Shuffle colors once on mount
@@ -43,6 +46,7 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
   return (
     <div className="min-h-screen relative overflow-hidden bg-[#0a0a08]">
       {/* Enhanced Smoke Overlay - Matching LandingPage */}
+      {/* ... (keep background effects) ... */}
       <div className="fixed inset-0 z-[1] pointer-events-none">
         {/* Bottom smoke layer */}
         <div className="absolute bottom-0 left-0 right-0 h-[60%]" style={{
@@ -130,6 +134,17 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
       {/* Main Content Card */}
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4 font-mono">
         <div className="relative bg-black/70 backdrop-blur-xl border border-[#4caf50]/30 rounded-lg p-8 max-w-md w-full shadow-[0_0_60px_rgba(0,0,0,0.8),0_0_30px_rgba(76,175,80,0.1)]">
+
+          {/* Back Button */}
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 text-white/50 hover:text-white text-sm font-medium transition-colors mb-6 font-mono"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            BACK TO HQ
+          </button>
 
           {/* Command Center Header */}
           <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-black px-4">
