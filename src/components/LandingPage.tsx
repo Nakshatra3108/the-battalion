@@ -233,7 +233,18 @@ function SmokeParticle({ position, delay = 0 }: { position: [number, number, num
 }
 
 // 3D Scene
-function Scene() {
+const Scene = React.memo(function Scene() {
+    // Memoize smoke particles to ensure they don't reset on re-renders
+    const smokeParticles = React.useMemo(() => [...Array(15)].map((_, i) => ({
+        id: i,
+        position: [
+            (Math.random() - 0.5) * 15,
+            -0.5,
+            (Math.random() - 0.5) * 10 - 5
+        ] as [number, number, number],
+        delay: Math.random() * 8
+    })), []);
+
     return (
         <>
             <ambientLight intensity={0.4} />
@@ -272,15 +283,11 @@ function Scene() {
             />
 
             {/* Smoke/Dust particles */}
-            {[...Array(15)].map((_, i) => (
+            {smokeParticles.map((p) => (
                 <SmokeParticle
-                    key={i}
-                    position={[
-                        (Math.random() - 0.5) * 15,
-                        -0.5,
-                        (Math.random() - 0.5) * 10 - 5
-                    ]}
-                    delay={Math.random() * 8}
+                    key={p.id}
+                    position={p.position}
+                    delay={p.delay}
                 />
             ))}
 
@@ -288,7 +295,7 @@ function Scene() {
             <Environment preset="sunset" />
         </>
     );
-}
+});
 
 // Memoized Background Effects to prevent re-renders when typing
 const BackgroundEffects = React.memo(function BackgroundEffects() {
