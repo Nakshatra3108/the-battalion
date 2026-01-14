@@ -51,7 +51,7 @@ const SLIDES = [
         <div className="grid grid-cols-2 gap-4 flex-1 min-h-0">
           <div className="bg-[#4caf50]/10 border-2 border-[#4caf50]/40 rounded-xl p-4 flex flex-col justify-center items-center text-center hover:scale-[1.02] hover:bg-[#4caf50]/20 transition-all duration-300 cursor-cell md:p-6">
             <div className="flex items-center gap-2 mb-2 lg:mb-3">
-              <span className="text-3xl lg:text-4xl">🏔️</span>
+              <span className="text-3xl lg:text-4xl shrink-0">🏔️</span>
               <span className="text-[#4caf50] font-bold text-xl lg:text-2xl uppercase">Corners ×4</span>
             </div>
             <p className="text-gray-400 text-base lg:text-lg mb-1">11 slots • Need 6 to control</p>
@@ -60,7 +60,7 @@ const SLIDES = [
 
           <div className="bg-[#03a9f4]/10 border-2 border-[#03a9f4]/40 rounded-xl p-4 flex flex-col justify-center items-center text-center hover:scale-[1.02] hover:bg-[#03a9f4]/20 transition-all duration-300 cursor-cell md:p-6">
             <div className="flex items-center gap-2 mb-2 lg:mb-3">
-              <span className="text-3xl lg:text-4xl">🌉</span>
+              <span className="text-3xl lg:text-4xl shrink-0">🌉</span>
               <span className="text-[#03a9f4] font-bold text-xl lg:text-2xl uppercase">Edges ×2</span>
             </div>
             <p className="text-gray-400 text-base lg:text-lg mb-1">17 slots • Need 9 to control</p>
@@ -69,7 +69,7 @@ const SLIDES = [
 
           <div className="bg-[#9c27b0]/10 border-2 border-[#9c27b0]/40 rounded-xl p-4 flex flex-col justify-center items-center text-center hover:scale-[1.02] hover:bg-[#9c27b0]/20 transition-all duration-300 cursor-cell md:p-6">
             <div className="flex items-center gap-2 mb-2 lg:mb-3">
-              <span className="text-3xl lg:text-4xl">⭐</span>
+              <span className="text-3xl lg:text-4xl shrink-0">⭐</span>
               <span className="text-[#9c27b0] font-bold text-xl lg:text-2xl uppercase">Center ×1</span>
             </div>
             <p className="text-gray-400 text-base lg:text-lg mb-1">9 slots • Need 5 to control</p>
@@ -78,7 +78,7 @@ const SLIDES = [
 
           <div className="bg-[#f44336]/10 border-2 border-[#f44336]/40 rounded-xl p-4 flex flex-col justify-center items-center text-center hover:scale-[1.02] hover:bg-[#f44336]/20 transition-all duration-300 cursor-cell md:p-6">
             <div className="flex items-center gap-2 mb-2 lg:mb-3">
-              <span className="text-3xl lg:text-4xl">🏰</span>
+              <span className="text-3xl lg:text-4xl shrink-0">🏰</span>
               <span className="text-[#f44336] font-bold text-xl lg:text-2xl uppercase">Citadels ×2</span>
             </div>
             <p className="text-gray-400 text-base lg:text-lg mb-1">21 slots • Need 11 to control</p>
@@ -102,36 +102,36 @@ const SLIDES = [
       <div className="h-full flex flex-col justify-center">
         <p className="text-gray-300 text-xl text-center mb-8 shrink-0">You have 4 types of currency. Maximum 12 total resources!</p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 min-h-0 items-center content-center">
-          <div className="flex items-center gap-5 bg-[#4caf50]/10 border-2 border-[#4caf50]/30 rounded-xl p-6 hover:bg-[#4caf50]/20 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(76,175,80,0.2)] transition-all duration-300 cursor-pointer h-32 md:h-40">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 flex-1 min-h-0 items-stretch content-center">
+          <div className="flex items-center gap-4 bg-[#4caf50]/10 border-2 border-[#4caf50]/30 rounded-xl p-4 md:p-6 hover:bg-[#4caf50]/20 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(76,175,80,0.2)] transition-all duration-300 cursor-pointer">
             <span className="text-5xl lg:text-6xl shrink-0">🟢</span>
             <div>
-              <p className="text-[#4caf50] font-bold text-2xl uppercase tracking-wider mb-1">Supply</p>
-              <p className="text-gray-300 text-base lg:text-lg">Used for purchasing units (Economy)</p>
+              <p className="text-[#4caf50] font-bold text-xl lg:text-2xl uppercase tracking-wider mb-1">Supply</p>
+              <p className="text-gray-300 text-sm lg:text-lg">Used for purchasing units (Economy)</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-5 bg-[#f44336]/10 border-2 border-[#f44336]/30 rounded-xl p-6 hover:bg-[#f44336]/20 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(244,67,54,0.2)] transition-all duration-300 cursor-pointer h-32 md:h-40">
+          <div className="flex items-center gap-4 bg-[#f44336]/10 border-2 border-[#f44336]/30 rounded-xl p-4 md:p-6 hover:bg-[#f44336]/20 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(244,67,54,0.2)] transition-all duration-300 cursor-pointer">
             <span className="text-5xl lg:text-6xl shrink-0">🔴</span>
             <div>
-              <p className="text-[#f44336] font-bold text-2xl uppercase tracking-wider mb-1">Firepower</p>
-              <p className="text-gray-300 text-base lg:text-lg">Used for attacking enemies (Force)</p>
+              <p className="text-[#f44336] font-bold text-xl lg:text-2xl uppercase tracking-wider mb-1">Firepower</p>
+              <p className="text-gray-300 text-sm lg:text-lg">Used for attacking enemies (Force)</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-5 bg-[#5AB4FF]/10 border-2 border-[#5AB4FF]/30 rounded-xl p-6 hover:bg-[#5AB4FF]/20 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(90,180,255,0.2)] transition-all duration-300 cursor-pointer h-32 md:h-40">
+          <div className="flex items-center gap-4 bg-[#5AB4FF]/10 border-2 border-[#5AB4FF]/30 rounded-xl p-4 md:p-6 hover:bg-[#5AB4FF]/20 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(90,180,255,0.2)] transition-all duration-300 cursor-pointer">
             <span className="text-5xl lg:text-6xl shrink-0">🔵</span>
             <div>
-              <p className="text-[#5AB4FF] font-bold text-2xl uppercase tracking-wider mb-1">Intel</p>
-              <p className="text-gray-300 text-base lg:text-lg">Used for spying and information</p>
+              <p className="text-[#5AB4FF] font-bold text-xl lg:text-2xl uppercase tracking-wider mb-1">Intel</p>
+              <p className="text-gray-300 text-sm lg:text-lg">Used for listening and information</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-5 bg-[#FFC734]/10 border-2 border-[#FFC734]/30 rounded-xl p-6 hover:bg-[#FFC734]/20 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,199,52,0.2)] transition-all duration-300 cursor-pointer h-32 md:h-40">
+          <div className="flex items-center gap-4 bg-[#FFC734]/10 border-2 border-[#FFC734]/30 rounded-xl p-4 md:p-6 hover:bg-[#FFC734]/20 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,199,52,0.2)] transition-all duration-300 cursor-pointer">
             <span className="text-5xl lg:text-6xl shrink-0">🟡</span>
             <div>
-              <p className="text-[#FFC734] font-bold text-2xl uppercase tracking-wider mb-1">Morale</p>
-              <p className="text-gray-300 text-base lg:text-lg">Used for defense and conversion (Loyalty)</p>
+              <p className="text-[#FFC734] font-bold text-xl lg:text-2xl uppercase tracking-wider mb-1">Morale</p>
+              <p className="text-gray-300 text-sm lg:text-lg">Used for defense and loyalty</p>
             </div>
           </div>
         </div>
@@ -334,29 +334,29 @@ const SLIDES = [
     content: (
       <div className="h-full flex flex-col justify-center">
         <div className="flex flex-col gap-4 flex-1 min-h-0 justify-center">
-          <div className="bg-[#4caf50]/10 border-l-8 border-[#4caf50] rounded-r-xl p-5 lg:p-6 flex items-center gap-6 hover:translate-x-3 hover:bg-[#4caf50]/20 transition-all duration-300 cursor-help group">
-            <span className="text-4xl group-hover:scale-125 transition-transform">🏔️</span>
-            <p className="text-gray-300 text-xl"><span className="text-[#4caf50] font-bold text-2xl block mb-1">Rush Corners Early</span> They're easier to lock and give solid points.</p>
+          <div className="bg-[#4caf50]/10 border-l-8 border-[#4caf50] rounded-r-xl p-4 lg:p-6 flex items-center gap-4 lg:gap-6 hover:translate-x-3 hover:bg-[#4caf50]/20 transition-all duration-300 cursor-help group">
+            <span className="text-4xl group-hover:scale-125 transition-transform shrink-0">🏔️</span>
+            <p className="text-gray-300 text-lg lg:text-xl"><span className="text-[#4caf50] font-bold text-xl lg:text-2xl block mb-1">Rush Corners Early</span> They're easier to lock and give solid points.</p>
           </div>
 
-          <div className="bg-[#ff9800]/10 border-l-8 border-[#ff9800] rounded-r-xl p-5 lg:p-6 flex items-center gap-6 hover:translate-x-3 hover:bg-[#ff9800]/20 transition-all duration-300 cursor-help group">
-            <span className="text-4xl group-hover:scale-125 transition-transform">🎯</span>
-            <p className="text-gray-300 text-xl"><span className="text-[#ff9800] font-bold text-2xl block mb-1">Don't Spread Thin</span> Focus on securing sectors fully before expanding.</p>
+          <div className="bg-[#ff9800]/10 border-l-8 border-[#ff9800] rounded-r-xl p-4 lg:p-6 flex items-center gap-4 lg:gap-6 hover:translate-x-3 hover:bg-[#ff9800]/20 transition-all duration-300 cursor-help group">
+            <span className="text-4xl group-hover:scale-125 transition-transform shrink-0">🎯</span>
+            <p className="text-gray-300 text-lg lg:text-xl"><span className="text-[#ff9800] font-bold text-xl lg:text-2xl block mb-1">Don't Spread Thin</span> Focus on securing sectors fully before expanding.</p>
           </div>
 
-          <div className="bg-[#f44336]/10 border-l-8 border-[#f44336] rounded-r-xl p-5 lg:p-6 flex items-center gap-6 hover:translate-x-3 hover:bg-[#f44336]/20 transition-all duration-300 cursor-help group">
-            <span className="text-4xl group-hover:scale-125 transition-transform">⚡</span>
-            <p className="text-gray-300 text-xl"><span className="text-[#f44336] font-bold text-2xl block mb-1">Beware Hot Zones</span> They are traps. Use them strategically - units can't leave!</p>
+          <div className="bg-[#f44336]/10 border-l-8 border-[#f44336] rounded-r-xl p-4 lg:p-6 flex items-center gap-4 lg:gap-6 hover:translate-x-3 hover:bg-[#f44336]/20 transition-all duration-300 cursor-help group">
+            <span className="text-4xl group-hover:scale-125 transition-transform shrink-0">⚡</span>
+            <p className="text-gray-300 text-lg lg:text-xl"><span className="text-[#f44336] font-bold text-xl lg:text-2xl block mb-1">Beware Hot Zones</span> They are traps. Use them strategically - units can't leave!</p>
           </div>
 
-          <div className="bg-[#9c27b0]/10 border-l-8 border-[#9c27b0] rounded-r-xl p-5 lg:p-6 flex items-center gap-6 hover:translate-x-3 hover:bg-[#9c27b0]/20 transition-all duration-300 cursor-help group">
-            <span className="text-4xl group-hover:scale-125 transition-transform">🎴</span>
-            <p className="text-gray-300 text-xl"><span className="text-[#9c27b0] font-bold text-2xl block mb-1">Hold Black Ops</span> Save your cards to disrupt enemy locks at crucial moments.</p>
+          <div className="bg-[#9c27b0]/10 border-l-8 border-[#9c27b0] rounded-r-xl p-4 lg:p-6 flex items-center gap-4 lg:gap-6 hover:translate-x-3 hover:bg-[#9c27b0]/20 transition-all duration-300 cursor-help group">
+            <span className="text-4xl group-hover:scale-125 transition-transform shrink-0">🎴</span>
+            <p className="text-gray-300 text-lg lg:text-xl"><span className="text-[#9c27b0] font-bold text-xl lg:text-2xl block mb-1">Hold Black Ops</span> Save your cards to disrupt enemy locks at crucial moments.</p>
           </div>
 
-          <div className="bg-[#03a9f4]/10 border-l-8 border-[#03a9f4] rounded-r-xl p-5 lg:p-6 flex items-center gap-6 hover:translate-x-3 hover:bg-[#03a9f4]/20 transition-all duration-300 cursor-help group">
-            <span className="text-4xl group-hover:scale-125 transition-transform">⭐</span>
-            <p className="text-gray-300 text-xl"><span className="text-[#03a9f4] font-bold text-2xl block mb-1">Level Up Fast</span> Level 5 powers can turn the game around instantly!</p>
+          <div className="bg-[#03a9f4]/10 border-l-8 border-[#03a9f4] rounded-r-xl p-4 lg:p-6 flex items-center gap-4 lg:gap-6 hover:translate-x-3 hover:bg-[#03a9f4]/20 transition-all duration-300 cursor-help group">
+            <span className="text-4xl group-hover:scale-125 transition-transform shrink-0">⭐</span>
+            <p className="text-gray-300 text-lg lg:text-xl"><span className="text-[#03a9f4] font-bold text-xl lg:text-2xl block mb-1">Level Up Fast</span> Level 5 powers can turn the game around instantly!</p>
           </div>
         </div>
       </div>
@@ -440,9 +440,8 @@ export default function Tutorial({ onClose }: TutorialProps) {
         </div>
 
         {/* Slide Content */}
-        {/* Added overflow-hidden to prevent scrolling, and h-full flex flex-col to parent */}
-        <div className="flex-1 overflow-hidden p-8 relative z-10 bg-black/20">
-          <div className="max-w-6xl mx-auto h-full">
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 relative z-10 bg-black/20 scrollbar-thin scrollbar-thumb-[#4caf50]/30 scrollbar-track-transparent">
+          <div className="max-w-6xl mx-auto min-h-full flex flex-col">
             {slide.content}
           </div>
         </div>
