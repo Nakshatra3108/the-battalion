@@ -290,62 +290,22 @@ function Scene() {
     );
 }
 
-interface LandingPageProps {
-    onJoinRoom: (roomId: string, playerId: string, playerName: string) => void;
-    onPlayLocal: () => void;
-}
-
-export default function LandingPage({ onJoinRoom, onPlayLocal }: LandingPageProps) {
-    const [mode, setMode] = useState<'select' | 'create' | 'join'>('select');
-    const [playerName, setPlayerName] = useState('');
-    const [roomCode, setRoomCode] = useState('');
-    const [playerId, setPlayerId] = useState('');
-    const [showTutorial, setShowTutorial] = useState(false);
-    const [showBugReport, setShowBugReport] = useState(false);
-    const [emailCopied, setEmailCopied] = useState(false);
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    useEffect(() => {
-        let storedId = sessionStorage.getItem('shasn_player_id');
-        if (!storedId) {
-            storedId = generatePlayerId();
-            sessionStorage.setItem('shasn_player_id', storedId);
-        }
-        setPlayerId(storedId);
-        const storedName = localStorage.getItem('shasn_player_name');
-        if (storedName) setPlayerName(storedName);
-
-        setTimeout(() => setIsLoaded(true), 100);
-    }, []);
-
-    const handleCreateRoom = () => {
-        if (!playerName.trim()) { alert('Please enter your codename'); return; }
-        localStorage.setItem('shasn_player_name', playerName);
-        onJoinRoom(generateRoomCode(), playerId, playerName);
-    };
-
-    const handleJoinRoom = () => {
-        if (!playerName.trim()) { alert('Please enter your codename'); return; }
-        if (!roomCode.trim()) { alert('Please enter a room code'); return; }
-        localStorage.setItem('shasn_player_name', playerName);
-        onJoinRoom(roomCode.toUpperCase(), playerId, playerName);
-    };
+// Memoized Background Effects to prevent re-renders when typing
+const BackgroundEffects = React.memo(function BackgroundEffects() {
+    // Generate random values once
+    const particles = React.useMemo(() => [...Array(12)].map((_, i) => ({
+        id: i,
+        left: `${5 + i * 8}%`,
+        bottom: `${5 + (i % 3) * 8}%`,
+        width: `${80 + Math.random() * 100}px`,
+        height: `${60 + Math.random() * 80}px`,
+        opacity: 0.3 + Math.random() * 0.2,
+        duration: `${3 + Math.random() * 3}s`,
+        delay: `${Math.random() * 2}s`
+    })), []);
 
     return (
-        <div className="min-h-screen relative overflow-hidden bg-[#0a0a08]">
-            {/* 3D Canvas Background */}
-            <div className="fixed inset-0 z-0">
-                <Canvas
-                    camera={{ position: [0, 3, 10], fov: 45 }}
-                    gl={{ antialias: true, alpha: true }}
-                    shadows
-                >
-                    <Suspense fallback={null}>
-                        <Scene />
-                    </Suspense>
-                </Canvas>
-            </div>
-
+        <>
             {/* Enhanced Smoke Overlay - CSS based */}
             <div className="fixed inset-0 z-[1] pointer-events-none">
                 {/* Bottom smoke layer */}
@@ -354,18 +314,18 @@ export default function LandingPage({ onJoinRoom, onPlayLocal }: LandingPageProp
                 }} />
 
                 {/* Smoke puffs */}
-                {[...Array(12)].map((_, i) => (
+                {particles.map((p) => (
                     <div
-                        key={i}
+                        key={p.id}
                         className="absolute rounded-full animate-pulse"
                         style={{
-                            left: `${5 + i * 8}%`,
-                            bottom: `${5 + (i % 3) * 8}%`,
-                            width: `${80 + Math.random() * 100}px`,
-                            height: `${60 + Math.random() * 80}px`,
-                            background: `radial-gradient(ellipse, rgba(60,50,40,${0.3 + Math.random() * 0.2}) 0%, transparent 70%)`,
-                            animationDuration: `${3 + Math.random() * 3}s`,
-                            animationDelay: `${Math.random() * 2}s`,
+                            left: p.left,
+                            bottom: p.bottom,
+                            width: p.width,
+                            height: p.height,
+                            background: `radial-gradient(ellipse, rgba(60,50,40,${p.opacity}) 0%, transparent 70%)`,
+                            animationDuration: p.duration,
+                            animationDelay: p.delay,
                             filter: 'blur(10px)',
                         }}
                     />
@@ -442,6 +402,68 @@ export default function LandingPage({ onJoinRoom, onPlayLocal }: LandingPageProp
             <div className="fixed inset-0 z-[3] pointer-events-none opacity-[0.03]" style={{
                 backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(76,175,80,0.1) 2px, rgba(76,175,80,0.1) 4px)',
             }} />
+        </>
+    );
+});
+
+
+interface LandingPageProps {
+    onJoinRoom: (roomId: string, playerId: string, playerName: string) => void;
+    onPlayLocal: () => void;
+}
+
+export default function LandingPage({ onJoinRoom, onPlayLocal }: LandingPageProps) {
+    const [mode, setMode] = useState<'select' | 'create' | 'join'>('select');
+    const [playerName, setPlayerName] = useState('');
+    const [roomCode, setRoomCode] = useState('');
+    const [playerId, setPlayerId] = useState('');
+    const [showTutorial, setShowTutorial] = useState(false);
+    const [showBugReport, setShowBugReport] = useState(false);
+    const [emailCopied, setEmailCopied] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    useEffect(() => {
+        let storedId = sessionStorage.getItem('shasn_player_id');
+        if (!storedId) {
+            storedId = generatePlayerId();
+            sessionStorage.setItem('shasn_player_id', storedId);
+        }
+        setPlayerId(storedId);
+        const storedName = localStorage.getItem('shasn_player_name');
+        if (storedName) setPlayerName(storedName);
+
+        setTimeout(() => setIsLoaded(true), 100);
+    }, []);
+
+    const handleCreateRoom = () => {
+        if (!playerName.trim()) { alert('Please enter your codename'); return; }
+        localStorage.setItem('shasn_player_name', playerName);
+        onJoinRoom(generateRoomCode(), playerId, playerName);
+    };
+
+    const handleJoinRoom = () => {
+        if (!playerName.trim()) { alert('Please enter your codename'); return; }
+        if (!roomCode.trim()) { alert('Please enter a room code'); return; }
+        localStorage.setItem('shasn_player_name', playerName);
+        onJoinRoom(roomCode.toUpperCase(), playerId, playerName);
+    };
+
+    return (
+        <div className="min-h-screen relative overflow-hidden bg-[#0a0a08]">
+            {/* 3D Canvas Background */}
+            <div className="fixed inset-0 z-0">
+                <Canvas
+                    camera={{ position: [0, 3, 10], fov: 45 }}
+                    gl={{ antialias: true, alpha: true }}
+                    shadows
+                >
+                    <Suspense fallback={null}>
+                        <Scene />
+                    </Suspense>
+                </Canvas>
+            </div>
+
+            <BackgroundEffects />
 
             {showTutorial && <Tutorial onClose={() => setShowTutorial(false)} />}
 
@@ -662,55 +684,23 @@ export default function LandingPage({ onJoinRoom, onPlayLocal }: LandingPageProp
                 <div className={`mt-8 text-center transform transition-all duration-1000 delay-500 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'}`}>
                     <p className="text-white/30 text-xs tracking-wider font-mono">© 2026 THE BATTALION // ALL RIGHTS RESERVED</p>
                 </div>
-            </div>
 
-            {/* Bug Report Modal */}
-            {showBugReport && (
-                <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowBugReport(false)}>
-                    <div
-                        className="bg-gray-900/95 border border-[#4caf50]/30 rounded-lg p-6 max-w-md w-full shadow-2xl"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <h3 className="text-xl font-bold text-white mb-4">Report Bug</h3>
-                        <p className="text-white/50 text-sm mb-4">Send your bug report to:</p>
-
-                        <div className="bg-black/50 border border-[#4caf50]/20 rounded-lg p-4 mb-4 flex items-center justify-between gap-3">
-                            <span className="text-[#4caf50] font-mono text-sm select-all">theplotarmour@gmail.com</span>
+                {/* Bug Report Display (Mock) */}
+                {showBugReport && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+                        <div className="bg-black border border-[#f44336] p-8 rounded-lg max-w-md text-center">
+                            <h3 className="text-[#f44336] text-xl font-bold mb-4">REPORT DISRUPTIONS</h3>
+                            <p className="text-gray-300 mb-6">Please report any bugs or issues on our Discord frequency.</p>
                             <button
-                                onClick={async () => {
-                                    try {
-                                        await navigator.clipboard.writeText('theplotarmour@gmail.com');
-                                        setEmailCopied(true);
-                                        setTimeout(() => setEmailCopied(false), 2000);
-                                    } catch {
-                                        const textArea = document.createElement('textarea');
-                                        textArea.value = 'theplotarmour@gmail.com';
-                                        document.body.appendChild(textArea);
-                                        textArea.select();
-                                        document.execCommand('copy');
-                                        document.body.removeChild(textArea);
-                                        setEmailCopied(true);
-                                        setTimeout(() => setEmailCopied(false), 2000);
-                                    }
-                                }}
-                                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${emailCopied
-                                    ? 'bg-[#4caf50] text-black'
-                                    : 'bg-white/10 text-white hover:bg-white/20'
-                                    }`}
+                                onClick={() => setShowBugReport(false)}
+                                className="px-6 py-2 bg-[#f44336]/20 text-[#f44336] border border-[#f44336] rounded hover:bg-[#f44336]/40 transition-colors"
                             >
-                                {emailCopied ? 'Copied!' : 'Copy'}
+                                DISMISS
                             </button>
                         </div>
-
-                        <button
-                            onClick={() => setShowBugReport(false)}
-                            className="w-full py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-lg transition-all"
-                        >
-                            Close
-                        </button>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 }
