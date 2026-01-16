@@ -107,7 +107,7 @@ const SLIDES = [
             <span className="text-5xl lg:text-6xl shrink-0">🟢</span>
             <div>
               <p className="text-[#4caf50] font-bold text-xl lg:text-2xl uppercase tracking-wider mb-1">Supply</p>
-              <p className="text-gray-300 text-sm lg:text-lg">Used for purchasing units (Economy)</p>
+              <p className="text-gray-300 text-sm lg:text-lg">Earned by answering Contractor type answers (Economy type)</p>
             </div>
           </div>
 
@@ -115,7 +115,7 @@ const SLIDES = [
             <span className="text-5xl lg:text-6xl shrink-0">🔴</span>
             <div>
               <p className="text-[#f44336] font-bold text-xl lg:text-2xl uppercase tracking-wider mb-1">Firepower</p>
-              <p className="text-gray-300 text-sm lg:text-lg">Used for attacking enemies (Force)</p>
+              <p className="text-gray-300 text-sm lg:text-lg">Earned by answering Hardliner type answers (Attack type)</p>
             </div>
           </div>
 
@@ -123,7 +123,7 @@ const SLIDES = [
             <span className="text-5xl lg:text-6xl shrink-0">🔵</span>
             <div>
               <p className="text-[#5AB4FF] font-bold text-xl lg:text-2xl uppercase tracking-wider mb-1">Intel</p>
-              <p className="text-gray-300 text-sm lg:text-lg">Used for listening and information</p>
+              <p className="text-gray-300 text-sm lg:text-lg">Earned by answering Operative type answers (Information type)</p>
             </div>
           </div>
 
@@ -131,7 +131,7 @@ const SLIDES = [
             <span className="text-5xl lg:text-6xl shrink-0">🟡</span>
             <div>
               <p className="text-[#FFC734] font-bold text-xl lg:text-2xl uppercase tracking-wider mb-1">Morale</p>
-              <p className="text-gray-300 text-sm lg:text-lg">Used for defense and loyalty</p>
+              <p className="text-gray-300 text-sm lg:text-lg">Earned by answering Diplomat type answers (Defense type)</p>
             </div>
           </div>
         </div>
