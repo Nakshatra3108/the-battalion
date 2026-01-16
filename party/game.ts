@@ -470,18 +470,13 @@ export default class GameRoom implements Party.Server {
               players: this.room.players,
             }), [sender.id]);
 
-            // Check if game is over (phase === 'GAME_OVER') - auto-reset room
-            const gameState = data.state as { phase?: string } | null;
-            if (gameState?.phase === 'GAME_OVER') {
-              console.log('[GameRoom] Game over detected, resetting room for reuse');
-              // Give players a moment to see the game over screen before resetting
-              setTimeout(async () => {
-                await this.resetRoom();
-              }, 5000); // 5 second delay
-            }
+            // Note: We don't auto-reset on GAME_OVER - let players view the screen
+            // They will be redirected to home when they click "Play Again" or leave
 
             // Check if only 1 player remains during active game - auto-reset
-            if (this.room.gameStarted && this.room.players.length === 1) {
+            // But only if the game is NOT over (so winner can still see the screen)
+            const gameState = data.state as { phase?: string } | null;
+            if (this.room.gameStarted && this.room.players.length === 1 && gameState?.phase !== 'GAME_OVER') {
               console.log('[GameRoom] Only 1 player remaining, resetting room');
               // Notify the remaining player
               this.party.broadcast(JSON.stringify({

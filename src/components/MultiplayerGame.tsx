@@ -435,6 +435,12 @@ export default function MultiplayerGame({
     // Could show toast/notification here if desired
   }, []);
 
+  const handleRoomReset = useCallback((reason: string) => {
+    console.log(`[MultiplayerGame] Room reset: ${reason}`);
+    // Redirect to home screen
+    onLeave();
+  }, [onLeave]);
+
   const { connected, reconnecting, room, error, isHost, disconnectedPlayers, startGame, sendAction, syncState, leaveGame } = useMultiplayer({
     roomId,
     playerId,
@@ -447,6 +453,7 @@ export default function MultiplayerGame({
     onPlayerLeft: handlePlayerLeft,
     onPlayerDisconnecting: handlePlayerDisconnecting,
     onPlayerReconnected: handlePlayerReconnected,
+    onRoomReset: handleRoomReset,
   });
 
   // Update ref when syncState changes
