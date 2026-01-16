@@ -28,7 +28,7 @@ export default function HeadlineDisplay({ headline, onDismiss }: HeadlineDisplay
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none p-8">
-      <div className="pointer-events-auto bg-black/95 border-2 border-[#ff9800]/50 rounded-xl p-6 max-w-md w-full mx-4 shadow-[0_0_40px_rgba(255,152,0,0.4)] animate-bounce-in">
+      <div className="relative pointer-events-auto bg-black/95 border-2 border-[#ff9800]/50 rounded-xl p-6 max-w-md w-full mx-4 shadow-[0_0_40px_rgba(255,152,0,0.4)] animate-bounce-in">
         {/* Corner brackets */}
         <div className="absolute top-2 left-2 w-5 h-5 border-t-2 border-l-2 border-[#ff9800]" />
         <div className="absolute top-2 right-2 w-5 h-5 border-t-2 border-r-2 border-[#ff9800]" />

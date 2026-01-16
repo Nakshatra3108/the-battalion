@@ -426,7 +426,6 @@ export default function LandingPage({ onJoinRoom, onPlayLocal }: LandingPageProp
     const [playerId, setPlayerId] = useState('');
     const [showTutorial, setShowTutorial] = useState(false);
     const [showBugReport, setShowBugReport] = useState(false);
-    const [emailCopied, setEmailCopied] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
@@ -689,7 +688,7 @@ export default function LandingPage({ onJoinRoom, onPlayLocal }: LandingPageProp
 
                 {/* Footer */}
                 <div className={`mt-8 text-center transform transition-all duration-1000 delay-500 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'}`}>
-                    <p className="text-white/30 text-xs tracking-wider font-mono">© 2026 THE BATTALION // ALL RIGHTS RESERVED</p>
+                    <p className="text-white/30 text-xs tracking-wider font-mono">© 2026 THE BATTALION | ALL RIGHTS RESERVED</p>
                 </div>
 
                 {/* Bug Report Display (Mock) */}

@@ -435,8 +435,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'Reconstruction begins. Limited resources force a choice.',
     optionA: {
       text: 'Rebuild civilian infrastructure first.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { trust: 2, clout: 1 },
+      ideology: 'idealist',
     },
     optionB: {
       text: 'Secure military installations first.',
@@ -655,8 +655,8 @@ export const ideologyCards: IdeologyCard[] = [
     question: 'A humanitarian convoy requests military escort through hostile territory.',
     optionA: {
       text: 'Provide escort. Protecting civilians is our duty.',
-      resources: { clout: 2, trust: 1 },
-      ideology: 'supremo',
+      resources: { trust: 2, clout: 1 },
+      ideology: 'idealist',
     },
     optionB: {
       text: 'Decline. It exposes our forces unnecessarily.',

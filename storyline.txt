@@ -70,9 +70,9 @@ THE 4 SECTOR TYPES:
    - Strategy: Massive score boost. Securing one of these is worth almost TWO corners.
 
 HOT ZONES (!):
-Some slots have a RED EXCLAIMATION MARK status.
+Some slots have a RED EXCLAMATION MARK status.
 - **Rule 1:** Placing a unit here triggers a Random Event Card (Flashpoint).
-- **Rule 2:** Units here became PERMANENT. They can never move.
+- **Rule 2:** Units here become PERMANENT. They can never move.
 - **Rule 3:** They check for "Control" just like normal units.
 
 --------------------------------------------------------------------------------

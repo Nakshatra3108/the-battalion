@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PLAYER_COLORS } from '@/types/game';
 
 interface PlayerInfo {
@@ -33,6 +33,20 @@ export default function WaitingRoom({
   onLeave,
 }: WaitingRoomProps) {
   const [copied, setCopied] = useState(false);
+  const [smokePuffStyles, setSmokePuffStyles] = useState<Array<{width: number, height: number, opacity: number, duration: number, delay: number}>>([]);
+
+  // Generate smoke puff styles on mount to avoid hydration mismatch
+  useEffect(() => {
+    setSmokePuffStyles(
+      [...Array(12)].map(() => ({
+        width: 80 + Math.random() * 100,
+        height: 60 + Math.random() * 80,
+        opacity: 0.3 + Math.random() * 0.2,
+        duration: 3 + Math.random() * 3,
+        delay: Math.random() * 2,
+      }))
+    );
+  }, []);
 
   const copyRoomCode = async () => {
     try {
@@ -63,18 +77,18 @@ export default function WaitingRoom({
         }} />
 
         {/* Smoke puffs */}
-        {[...Array(12)].map((_, i) => (
+        {smokePuffStyles?.map((puff, i) => (
           <div
             key={i}
             className="absolute rounded-full animate-pulse"
             style={{
               left: `${5 + i * 8}%`,
               bottom: `${5 + (i % 3) * 8}%`,
-              width: `${80 + Math.random() * 100}px`,
-              height: `${60 + Math.random() * 80}px`,
-              background: `radial-gradient(ellipse, rgba(60,50,40,${0.3 + Math.random() * 0.2}) 0%, transparent 70%)`,
-              animationDuration: `${3 + Math.random() * 3}s`,
-              animationDelay: `${Math.random() * 2}s`,
+              width: `${puff.width}px`,
+              height: `${puff.height}px`,
+              background: `radial-gradient(ellipse, rgba(60,50,40,${puff.opacity}) 0%, transparent 70%)`,
+              animationDuration: `${puff.duration}s`,
+              animationDelay: `${puff.delay}s`,
               filter: 'blur(10px)',
             }}
           />

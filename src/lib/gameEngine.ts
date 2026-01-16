@@ -2982,10 +2982,10 @@ export function playConspiracyCard(state: GameState, data: PlayConspiracyData): 
             added++;
           }
 
-          const updatedPlayer: Player = { ...newState.players[player.id], resources: newResources };
+          const playerWithResources: Player = { ...newState.players[player.id], resources: newResources };
           newState = {
             ...newState,
-            players: { ...newState.players, [player.id]: updatedPlayer },
+            players: { ...newState.players, [player.id]: playerWithResources },
           };
           newState = addToLog(newState, player.id, 'CONSPIRACY_INTEL_SWEEP', `Gained ${added} resources from Intel Sweep`);
         }
