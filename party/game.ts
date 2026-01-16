@@ -47,7 +47,11 @@ interface RoomState {
   hostId: string | null;
 }
 
-type IncomingMessage = JoinMessage | StartGameMessage | GameActionMessage | SyncStateMessage | PingMessage | LeaveGameMessage;
+interface ResetRoomMessage {
+  type: "reset_room";
+}
+
+type IncomingMessage = JoinMessage | StartGameMessage | GameActionMessage | SyncStateMessage | PingMessage | LeaveGameMessage | ResetRoomMessage;
 
 // Grace period in milliseconds before removing a disconnected player
 const DISCONNECT_GRACE_PERIOD_MS = 60000; // 60 seconds
@@ -92,6 +96,28 @@ export default class GameRoom implements Party.Server {
     } catch (error) {
       console.error("[GameRoom] Error saving state:", error);
     }
+  }
+
+  // Reset the room to initial state (for reuse after game ends)
+  async resetRoom() {
+    // Cancel all pending disconnect timers
+    for (const timer of this.pendingDisconnects.values()) {
+      clearTimeout(timer);
+    }
+    this.pendingDisconnects.clear();
+    this.lastPingTime.clear();
+
+    // Reset room state
+    this.room = {
+      players: [],
+      gameStarted: false,
+      gameState: null,
+      hostId: null,
+    };
+
+    // Delete persisted state
+    await this.party.storage.delete("room_v2");
+    console.log("[GameRoom] Room has been reset for reuse");
   }
 
   onConnect(conn: Party.Connection, ctx: Party.ConnectionContext) {
@@ -444,8 +470,43 @@ export default class GameRoom implements Party.Server {
               players: this.room.players,
             }), [sender.id]);
 
+            // Check if game is over (phase === 'GAME_OVER') - auto-reset room
+            const gameState = data.state as { phase?: string } | null;
+            if (gameState?.phase === 'GAME_OVER') {
+              console.log('[GameRoom] Game over detected, resetting room for reuse');
+              // Give players a moment to see the game over screen before resetting
+              setTimeout(async () => {
+                await this.resetRoom();
+              }, 5000); // 5 second delay
+            }
+
+            // Check if only 1 player remains during active game - auto-reset
+            if (this.room.gameStarted && this.room.players.length === 1) {
+              console.log('[GameRoom] Only 1 player remaining, resetting room');
+              // Notify the remaining player
+              this.party.broadcast(JSON.stringify({
+                type: "room_reset",
+                reason: "All other players left the game",
+              }));
+              await this.resetRoom();
+            }
+
             await this.saveState();
           }
+          break;
+        }
+
+        case "reset_room": {
+          // Manual reset request (e.g., from game over screen)
+          console.log('[GameRoom] Manual room reset requested');
+
+          // Notify all players
+          this.party.broadcast(JSON.stringify({
+            type: "room_reset",
+            reason: "Game ended",
+          }));
+
+          await this.resetRoom();
           break;
         }
       }

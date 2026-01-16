@@ -40,6 +40,7 @@ interface UseMultiplayerOptions {
   onPlayerLeft?: (playerId: string, newHostId: string | null) => void;
   onPlayerDisconnecting?: (playerId: string, playerName: string, gracePeriodMs: number) => void;
   onPlayerReconnected?: (playerId: string, playerName: string) => void;
+  onRoomReset?: (reason: string) => void;
 }
 
 export function useMultiplayer({
@@ -53,6 +54,7 @@ export function useMultiplayer({
   onPlayerLeft,
   onPlayerDisconnecting,
   onPlayerReconnected,
+  onRoomReset,
 }: UseMultiplayerOptions) {
   const [socket, setSocket] = useState<PartySocket | null>(null);
   const [connected, setConnected] = useState(false);
@@ -63,11 +65,11 @@ export function useMultiplayer({
 
   const callbacksRef = useRef({
     onGameStart, onGameAction, onStateSync, onError, onPlayerLeft,
-    onPlayerDisconnecting, onPlayerReconnected
+    onPlayerDisconnecting, onPlayerReconnected, onRoomReset
   });
   callbacksRef.current = {
     onGameStart, onGameAction, onStateSync, onError, onPlayerLeft,
-    onPlayerDisconnecting, onPlayerReconnected
+    onPlayerDisconnecting, onPlayerReconnected, onRoomReset
   };
 
   useEffect(() => {
@@ -241,6 +243,16 @@ export function useMultiplayer({
           setError(data.message);
           if (callbacksRef.current.onError) {
             callbacksRef.current.onError(data.message);
+          }
+          break;
+
+        case 'room_reset':
+          // Room has been reset (game over, or all players left)
+          console.log('[useMultiplayer] Room reset:', data.reason);
+          setRoom(null);
+          setDisconnectedPlayers([]);
+          if (callbacksRef.current.onRoomReset) {
+            callbacksRef.current.onRoomReset(data.reason);
           }
           break;
       }
