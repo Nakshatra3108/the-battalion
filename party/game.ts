@@ -425,15 +425,10 @@ export default class GameRoom implements Party.Server {
             // Remove player immediately
             this.room.players.splice(playerIndex, 1);
 
-            // If room is empty, reset
+            // If room is empty, reset for reuse
             if (this.room.players.length === 0) {
-              this.room = {
-                players: [],
-                gameStarted: false,
-                gameState: null,
-                hostId: null,
-              };
-              await this.party.storage.delete("room_v2");
+              console.log('[GameRoom] Room is empty, resetting for reuse');
+              await this.resetRoom();
               return;
             }
 

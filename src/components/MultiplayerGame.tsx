@@ -788,8 +788,9 @@ export default function MultiplayerGame({
   }, [dispatch, isMyTurn]);
 
   const handlePlayAgain = useCallback(() => {
-    window.location.reload();
-  }, []);
+    leaveGame(); // Tell server we're leaving (triggers room reset if last player)
+    onLeave(); // Navigate back to home
+  }, [leaveGame, onLeave]);
 
   // Show waiting room if game hasn't started
   if (!room?.gameStarted || !gameState) {
