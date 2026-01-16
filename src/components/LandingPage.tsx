@@ -1,48 +1,78 @@
 'use client';
 
-import React, { useState, useEffect, useRef, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense, useCallback } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Environment } from '@react-three/drei';
+import { Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { generatePlayerId, generateRoomCode } from '@/lib/useMultiplayer';
 import { gameTitle, gameSubtitle } from '@/data/displayNames';
 import Tutorial from './Tutorial';
 
-// Detailed 3D Tank Model built with primitives - NOW WITH MOVEMENT
-function Tank3D({ position, rotation, scale = 1, speed = 1, delay = 0 }: { position: [number, number, number], rotation?: [number, number, number], scale?: number, speed?: number, delay?: number }) {
+// Tank configuration type
+interface TankConfig {
+    id: number;
+    startX: number;
+    y: number;
+    z: number;
+    scale: number;
+    speed: number;
+    rotation: [number, number, number];
+    spawnTime: number;
+}
+
+// Tank3D component - moves from right to left, reports when off screen
+function Tank3D({
+    config,
+    onOffScreen
+}: {
+    config: TankConfig;
+    onOffScreen: (id: number) => void;
+}) {
     const groupRef = useRef<THREE.Group>(null);
     const turretRef = useRef<THREE.Group>(null);
     const wheelsLeftRef = useRef<THREE.Group>(null);
     const wheelsRightRef = useRef<THREE.Group>(null);
+    const startTimeRef = useRef<number | null>(null);
+    const hasReportedOffScreen = useRef(false);
 
-    useFrame((state) => {
-        if (groupRef.current) {
-            // Tank moves from right to left across full screen, then loops
-            const moveRange = 40; // Full journey distance
-            // Add delay offset so tanks are staggered
-            const t = ((state.clock.elapsedTime * speed) + delay) % moveRange;
-            const x = 20 - t; // Start at right (20), travel to left (-20)
-            groupRef.current.position.x = x;
+    useFrame((state, delta) => {
+        if (!groupRef.current) return;
 
-            // Subtle bounce
-            groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 3) * 0.015;
+        // Initialize start time on first frame
+        if (startTimeRef.current === null) {
+            startTimeRef.current = state.clock.elapsedTime;
         }
+
+        const elapsed = state.clock.elapsedTime - startTimeRef.current;
+        const x = config.startX - elapsed * config.speed;
+
+        groupRef.current.position.x = x;
+
+        // Subtle bounce
+        groupRef.current.position.y = config.y + Math.sin(state.clock.elapsedTime * 3) * 0.015;
+
+        // Check if tank is off screen (past left edge with some buffer)
+        if (x < -25 && !hasReportedOffScreen.current) {
+            hasReportedOffScreen.current = true;
+            onOffScreen(config.id);
+        }
+
         if (turretRef.current) {
             // Turret slightly sways
             turretRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
         }
-        // Rotate wheels
+        // Rotate wheels (using delta time for frame-rate independence)
         if (wheelsLeftRef.current) {
             wheelsLeftRef.current.children.forEach((child) => {
                 if (child instanceof THREE.Mesh) {
-                    child.rotation.y += 0.1 * speed;
+                    child.rotation.y += delta * config.speed * 6;
                 }
             });
         }
         if (wheelsRightRef.current) {
             wheelsRightRef.current.children.forEach((child) => {
                 if (child instanceof THREE.Mesh) {
-                    child.rotation.y += 0.1 * speed;
+                    child.rotation.y += delta * config.speed * 6;
                 }
             });
         }
@@ -53,7 +83,7 @@ function Tank3D({ position, rotation, scale = 1, speed = 1, delay = 0 }: { posit
     const metalColor = "#2a2a2a";
 
     return (
-        <group ref={groupRef} position={position} rotation={rotation || [0, 0, 0]} scale={scale}>
+        <group ref={groupRef} position={[config.startX, config.y, config.z]} rotation={config.rotation} scale={config.scale}>
             {/* HULL - Main body */}
             <mesh position={[0, 0.4, 0]}>
                 <boxGeometry args={[3, 0.6, 1.8]} />
@@ -232,6 +262,106 @@ function SmokeParticle({ position, delay = 0 }: { position: [number, number, num
     );
 }
 
+// Tank lane configurations for spawning
+const TANK_LANES = [
+    { y: -0.8, z: 3, scale: 1.3, speedRange: [1.3, 1.7], rotation: [0, Math.PI, 0] as [number, number, number] },      // Front lane
+    { y: -0.9, z: 0, scale: 1.0, speedRange: [1.0, 1.4], rotation: [0, Math.PI + 0.05, 0] as [number, number, number] }, // Middle lane
+    { y: -1, z: -4, scale: 0.7, speedRange: [0.7, 1.1], rotation: [0, Math.PI - 0.03, 0] as [number, number, number] },  // Back lane
+];
+
+// TankManager component to handle spawning/deletion
+function TankManager() {
+    const [tanks, setTanks] = useState<TankConfig[]>([]);
+    const nextIdRef = useRef(0);
+    const lastSpawnTimeRef = useRef<{ [key: number]: number }>({});
+
+    // Initialize with some tanks already on screen
+    useEffect(() => {
+        const now = Date.now();
+        const initialTanks: TankConfig[] = TANK_LANES.map((lane, index) => {
+            const speed = lane.speedRange[0] + Math.random() * (lane.speedRange[1] - lane.speedRange[0]);
+            return {
+                id: nextIdRef.current++,
+                startX: 25 - index * 15, // Stagger initial positions
+                y: lane.y,
+                z: lane.z,
+                scale: lane.scale,
+                speed,
+                rotation: lane.rotation,
+                spawnTime: now,
+            };
+        });
+        setTanks(initialTanks);
+
+        // Initialize last spawn times
+        TANK_LANES.forEach((_, index) => {
+            lastSpawnTimeRef.current[index] = now - index * 5000; // Stagger spawns
+        });
+    }, []);
+
+    // Spawn tanks periodically
+    useEffect(() => {
+        const spawnInterval = setInterval(() => {
+            const now = Date.now();
+
+            setTanks(prevTanks => {
+                const newTanks = [...prevTanks];
+
+                TANK_LANES.forEach((lane, laneIndex) => {
+                    const lastSpawn = lastSpawnTimeRef.current[laneIndex] || 0;
+                    const spawnDelay = 8000 + Math.random() * 6000; // 8-14 seconds between spawns per lane
+
+                    if (now - lastSpawn > spawnDelay) {
+                        // Check if there's no tank too close to spawn point in this lane
+                        // Use current position based on spawn time, not initial startX
+                        const hasNearbyTank = prevTanks.some(t => {
+                            if (t.z !== lane.z) return false;
+                            const elapsedSec = (now - t.spawnTime) / 1000;
+                            const currentX = t.startX - elapsedSec * t.speed;
+                            return currentX > 15;
+                        });
+
+                        if (!hasNearbyTank) {
+                            const speed = lane.speedRange[0] + Math.random() * (lane.speedRange[1] - lane.speedRange[0]);
+                            newTanks.push({
+                                id: nextIdRef.current++,
+                                startX: 25, // Spawn from right edge
+                                y: lane.y,
+                                z: lane.z,
+                                scale: lane.scale,
+                                speed,
+                                rotation: lane.rotation,
+                                spawnTime: now,
+                            });
+                            lastSpawnTimeRef.current[laneIndex] = now;
+                        }
+                    }
+                });
+
+                return newTanks;
+            });
+        }, 1000);
+
+        return () => clearInterval(spawnInterval);
+    }, []);
+
+    const handleTankOffScreen = useCallback((id: number) => {
+        setTanks(prevTanks => prevTanks.filter(t => t.id !== id));
+    }, []);
+
+    return (
+        <>
+            {tanks.map(tank => (
+                <Tank3D
+                    key={tank.id}
+                    config={tank}
+                    onOffScreen={handleTankOffScreen}
+                />
+            ))}
+        </>
+    );
+}
+
 // 3D Scene
 const Scene = React.memo(function Scene() {
     // Memoize smoke particles to ensure they don't reset on re-renders
@@ -255,32 +385,8 @@ const Scene = React.memo(function Scene() {
             {/* Fog for atmosphere */}
             <fog attach="fog" args={['#1a1510', 8, 30]} />
 
-            {/* Main Tank - Bottom of screen, moving right to left, FACING LEFT */}
-            <Tank3D
-                position={[0, -0.8, 3]}
-                rotation={[0, Math.PI, 0]}
-                scale={1.3}
-                speed={1.5}
-                delay={5}
-            />
-
-            {/* Second Tank - Middle depth */}
-            <Tank3D
-                position={[0, -0.9, 0]}
-                rotation={[0, Math.PI + 0.05, 0]}
-                scale={1.0}
-                speed={1.2}
-                delay={15}
-            />
-
-            {/* Third Tank - Far background */}
-            <Tank3D
-                position={[0, -1, -4]}
-                rotation={[0, Math.PI - 0.03, 0]}
-                scale={0.7}
-                speed={0.9}
-                delay={25}
-            />
+            {/* Tank Manager - handles spawning tanks from right and deleting when off screen */}
+            <TankManager />
 
             {/* Smoke/Dust particles */}
             {smokeParticles.map((p) => (
