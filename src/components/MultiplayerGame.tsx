@@ -425,7 +425,17 @@ export default function MultiplayerGame({
     if (syncStateRef.current) syncStateRef.current(newState);
   }, [playerId]);
 
-  const { connected, room, error, isHost, startGame, sendAction, syncState } = useMultiplayer({
+  const handlePlayerDisconnecting = useCallback((leftPlayerId: string, playerName: string, gracePeriodMs: number) => {
+    console.log(`[MultiplayerGame] Player ${playerName} disconnected - they have ${gracePeriodMs / 1000}s to reconnect`);
+    // Could show toast/notification here if desired
+  }, []);
+
+  const handlePlayerReconnected = useCallback((reconnectedPlayerId: string, playerName: string) => {
+    console.log(`[MultiplayerGame] Player ${playerName} reconnected!`);
+    // Could show toast/notification here if desired
+  }, []);
+
+  const { connected, reconnecting, room, error, isHost, disconnectedPlayers, startGame, sendAction, syncState, leaveGame } = useMultiplayer({
     roomId,
     playerId,
     playerName,
@@ -435,6 +445,8 @@ export default function MultiplayerGame({
     onStateSync: handleStateSync,
     onError: handleError,
     onPlayerLeft: handlePlayerLeft,
+    onPlayerDisconnecting: handlePlayerDisconnecting,
+    onPlayerReconnected: handlePlayerReconnected,
   });
 
   // Update ref when syncState changes
@@ -960,6 +972,29 @@ export default function MultiplayerGame({
         </div>
       )}
 
+      {/* Reconnecting Banner */}
+      {reconnecting && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] bg-gradient-to-r from-[#ff9800] to-[#f57c00] text-white px-6 py-3 rounded-lg shadow-[0_0_20px_rgba(255,152,0,0.5)] font-mono uppercase tracking-wider text-sm flex items-center gap-3">
+          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          <span>RECONNECTING TO SERVER...</span>
+        </div>
+      )}
+
+      {/* Disconnected Players Notification */}
+      {disconnectedPlayers.length > 0 && (
+        <div className="fixed top-4 right-4 z-[9998] bg-gradient-to-r from-[#ff5722]/90 to-[#e64a19]/90 text-white px-4 py-3 rounded-lg shadow-[0_0_15px_rgba(255,87,34,0.4)] font-mono text-sm max-w-xs">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-3 h-3 bg-yellow-400 rounded-full animate-pulse" />
+            <span className="uppercase tracking-wider font-bold text-xs">Connection Lost</span>
+          </div>
+          {disconnectedPlayers.map(p => (
+            <div key={p.playerId} className="text-white/90 text-xs">
+              <span className="font-bold">{p.playerName}</span> reconnecting...
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Black Ops Notification Toast */}
       {showBlackOpsAlert && gameState.lastBlackOpsPlayed && (
         <div className="fixed top-32 left-1/2 -translate-x-1/2 z-[9999] bg-gradient-to-r from-[#1a1a2e] to-[#16213e] text-white px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(220,38,38,0.6)] border-2 border-[#dc2626] font-mono animate-pulse">
@@ -1011,6 +1046,7 @@ export default function MultiplayerGame({
             <button
               onClick={() => {
                 if (confirm('Are you sure you want to exit the game?')) {
+                  leaveGame(); // Send explicit leave message for immediate removal
                   onLeave();
                 }
               }}

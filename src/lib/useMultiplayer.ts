@@ -12,12 +12,21 @@ interface PlayerInfo {
   connectionId: string;
   isHost: boolean;
   isReady: boolean;
+  disconnectedAt?: number;
 }
 
 interface RoomInfo {
   players: PlayerInfo[];
   gameStarted: boolean;
   hostId: string | null;
+}
+
+// Info about a player who is temporarily disconnected but within grace period
+interface DisconnectedPlayer {
+  playerId: string;
+  playerName: string;
+  disconnectedAt: number;
+  gracePeriodMs: number;
 }
 
 interface UseMultiplayerOptions {
@@ -29,6 +38,8 @@ interface UseMultiplayerOptions {
   onStateSync?: (state: GameState) => void;
   onError?: (message: string) => void;
   onPlayerLeft?: (playerId: string, newHostId: string | null) => void;
+  onPlayerDisconnecting?: (playerId: string, playerName: string, gracePeriodMs: number) => void;
+  onPlayerReconnected?: (playerId: string, playerName: string) => void;
 }
 
 export function useMultiplayer({
@@ -40,14 +51,24 @@ export function useMultiplayer({
   onStateSync,
   onError,
   onPlayerLeft,
+  onPlayerDisconnecting,
+  onPlayerReconnected,
 }: UseMultiplayerOptions) {
   const [socket, setSocket] = useState<PartySocket | null>(null);
   const [connected, setConnected] = useState(false);
+  const [reconnecting, setReconnecting] = useState(false);
   const [room, setRoom] = useState<RoomInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [disconnectedPlayers, setDisconnectedPlayers] = useState<DisconnectedPlayer[]>([]);
 
-  const callbacksRef = useRef({ onGameStart, onGameAction, onStateSync, onError, onPlayerLeft });
-  callbacksRef.current = { onGameStart, onGameAction, onStateSync, onError, onPlayerLeft };
+  const callbacksRef = useRef({
+    onGameStart, onGameAction, onStateSync, onError, onPlayerLeft,
+    onPlayerDisconnecting, onPlayerReconnected
+  });
+  callbacksRef.current = {
+    onGameStart, onGameAction, onStateSync, onError, onPlayerLeft,
+    onPlayerDisconnecting, onPlayerReconnected
+  };
 
   useEffect(() => {
     if (!roomId || !playerId) return;
@@ -55,19 +76,22 @@ export function useMultiplayer({
     const ws = new PartySocket({
       host: PARTYKIT_HOST,
       room: roomId,
-      // Configure reconnection behavior
-      maxRetries: 10,
-      // Start with 1s delay, max 30s delay between retries
-      minUptime: 1000,
+      // Configure reconnection behavior for international connections
+      maxRetries: 20, // Increased from 10 for better resilience
+      // Start with 500ms delay, exponential backoff up to 30s
+      startClosed: false,
     });
 
-    // Keep-alive ping interval - increased for better tolerance on slow networks
+    // Keep-alive ping interval - optimized for high-latency international connections
     let pingInterval: NodeJS.Timeout | null = null;
     let missedPongs = 0;
-    const MAX_MISSED_PONGS = 5; // 5 missed pongs = 125s timeout before reconnect
+    const MAX_MISSED_PONGS = 6; // 6 missed pongs = 180s timeout before forced reconnect
+    const PING_INTERVAL_MS = 30000; // 30 seconds between pings
 
     ws.addEventListener('open', () => {
+      console.log('[useMultiplayer] Connected to server');
       setConnected(true);
+      setReconnecting(false);
       setError(null);
       missedPongs = 0;
 
@@ -83,31 +107,34 @@ export function useMultiplayer({
         clearInterval(pingInterval);
       }
 
-      // Start ping interval to keep connection alive (every 15 seconds)
+      // Start ping interval to keep connection alive
       pingInterval = setInterval(() => {
         if (ws.readyState === WebSocket.OPEN) {
           missedPongs++;
           if (missedPongs > MAX_MISSED_PONGS) {
             // Connection seems dead, force reconnect
             console.warn('[useMultiplayer] Too many missed pongs, reconnecting...');
+            setReconnecting(true);
             ws.reconnect();
             missedPongs = 0;
           } else {
             ws.send(JSON.stringify({ type: 'ping' }));
           }
         }
-      }, 25000); // Ping every 25 seconds (more tolerance for slow networks)
+      }, PING_INTERVAL_MS);
     });
 
     ws.addEventListener('close', (event) => {
       console.log('[useMultiplayer] Connection closed, code:', event.code);
       setConnected(false);
+      setReconnecting(true); // Show reconnecting state
       // Don't clear ping interval - PartySocket will auto-reconnect
     });
 
     ws.addEventListener('error', (event) => {
       console.error('[useMultiplayer] Connection error:', event);
       setError('Connection error - reconnecting...');
+      setReconnecting(true);
       // Don't set connected to false here - PartySocket handles reconnection
     });
 
@@ -132,7 +159,35 @@ export function useMultiplayer({
           }
           break;
 
+        case 'player_disconnecting':
+          // A player has lost connection but is in grace period
+          setDisconnectedPlayers(prev => {
+            // Remove any existing entry for this player
+            const filtered = prev.filter(p => p.playerId !== data.playerId);
+            return [...filtered, {
+              playerId: data.playerId,
+              playerName: data.playerName,
+              disconnectedAt: Date.now(),
+              gracePeriodMs: data.gracePeriodMs,
+            }];
+          });
+          if (callbacksRef.current.onPlayerDisconnecting) {
+            callbacksRef.current.onPlayerDisconnecting(data.playerId, data.playerName, data.gracePeriodMs);
+          }
+          break;
+
+        case 'player_reconnected':
+          // A player successfully reconnected within grace period
+          setDisconnectedPlayers(prev => prev.filter(p => p.playerId !== data.playerId));
+          setRoom(prev => prev ? { ...prev, players: data.players } : null);
+          if (callbacksRef.current.onPlayerReconnected) {
+            callbacksRef.current.onPlayerReconnected(data.playerId, data.playerName);
+          }
+          break;
+
         case 'player_left':
+          // Player has been fully removed (grace period expired or game not started)
+          setDisconnectedPlayers(prev => prev.filter(p => p.playerId !== data.playerId));
           setRoom(prev => ({
             players: data.players,
             // Use server value if provided, otherwise preserve previous state (don't reset to false!)
@@ -148,6 +203,7 @@ export function useMultiplayer({
           break;
 
         case 'rejoined':
+          console.log('[useMultiplayer] Successfully rejoined game');
           setRoom({
             players: data.room.players,
             gameStarted: data.room.gameStarted,
@@ -225,16 +281,34 @@ export function useMultiplayer({
     }
   }, [socket, connected]);
 
+  // Explicitly leave the game (bypasses grace period for immediate removal)
+  const leaveGame = useCallback(() => {
+    if (socket) {
+      // Send leave message before closing
+      socket.send(JSON.stringify({
+        type: 'leave_game',
+        playerId,
+      }));
+      // Close the socket after a brief delay to ensure message is sent
+      setTimeout(() => {
+        socket.close();
+      }, 100);
+    }
+  }, [socket, playerId]);
+
   const isHost = room?.hostId === playerId;
 
   return {
     connected,
+    reconnecting,
     room,
     error,
     isHost,
+    disconnectedPlayers,
     startGame,
     sendAction,
     syncState,
+    leaveGame,
   };
 }
 
@@ -252,3 +326,4 @@ export function generateRoomCode(): string {
   }
   return code;
 }
+

@@ -26,12 +26,18 @@ interface PingMessage {
   type: "ping";
 }
 
+interface LeaveGameMessage {
+  type: "leave_game";
+  playerId: string;
+}
+
 interface PlayerInfo {
   id: string;
   name: string;
   connectionId: string;
   isHost: boolean;
   isReady: boolean;
+  disconnectedAt?: number; // Timestamp when player disconnected (for grace period)
 }
 
 interface RoomState {
@@ -41,7 +47,10 @@ interface RoomState {
   hostId: string | null;
 }
 
-type IncomingMessage = JoinMessage | StartGameMessage | GameActionMessage | SyncStateMessage | PingMessage;
+type IncomingMessage = JoinMessage | StartGameMessage | GameActionMessage | SyncStateMessage | PingMessage | LeaveGameMessage;
+
+// Grace period in milliseconds before removing a disconnected player
+const DISCONNECT_GRACE_PERIOD_MS = 60000; // 60 seconds
 
 export default class GameRoom implements Party.Server {
   // Enable hibernation to prevent connection drops during idle periods
@@ -58,6 +67,9 @@ export default class GameRoom implements Party.Server {
 
   // Track last ping time for each connection
   lastPingTime: Map<string, number> = new Map();
+
+  // Track pending disconnection timers (playerId -> timer)
+  pendingDisconnects: Map<string, ReturnType<typeof setTimeout>> = new Map();
 
   constructor(readonly party: Party.Party) { }
 
@@ -118,38 +130,103 @@ export default class GameRoom implements Party.Server {
         const player = this.room.players[playerIndex];
         console.log(`[GameRoom] Player disconnected: ${player.name} (${player.id})`);
 
-        // Remove player immediately (no grace period)
-        this.room.players.splice(playerIndex, 1);
+        // If game hasn't started, remove immediately (lobby behavior)
+        if (!this.room.gameStarted) {
+          this.room.players.splice(playerIndex, 1);
 
-        // If room is empty, RESET state logic via DELETION
-        if (this.room.players.length === 0) {
-          this.room = {
-            players: [],
-            gameStarted: false,
-            gameState: null,
-            hostId: null,
-          };
-          // Explicitly delete storage to ensure hard reset
-          await this.party.storage.delete("room_v2");
+          // If room is empty, RESET state
+          if (this.room.players.length === 0) {
+            this.room = {
+              players: [],
+              gameStarted: false,
+              gameState: null,
+              hostId: null,
+            };
+            await this.party.storage.delete("room_v2");
+            return;
+          }
+
+          // Reassign host if needed
+          if (player.isHost && this.room.players.length > 0) {
+            this.room.players[0].isHost = true;
+            this.room.hostId = this.room.players[0].id;
+          }
+
+          this.party.broadcast(JSON.stringify({
+            type: "player_left",
+            playerId: player.id,
+            players: this.room.players,
+            hostId: this.room.hostId,
+            gameStarted: this.room.gameStarted,
+          }));
+
+          await this.saveState();
           return;
         }
 
-        // If host left, assign new host
-        if (player.isHost && this.room.players.length > 0) {
-          this.room.players[0].isHost = true;
-          this.room.hostId = this.room.players[0].id;
-        }
+        // GAME IN PROGRESS: Use grace period for reconnection
+        // Mark player as disconnected but don't remove yet
+        player.disconnectedAt = Date.now();
 
-        // Broadcast player left - MUST include gameStarted to prevent clients from resetting
+        // Notify other players that this player is temporarily disconnected
         this.party.broadcast(JSON.stringify({
-          type: "player_left",
+          type: "player_disconnecting",
           playerId: player.id,
-          players: this.room.players,
-          hostId: this.room.hostId,
-          gameStarted: this.room.gameStarted,
+          playerName: player.name,
+          gracePeriodMs: DISCONNECT_GRACE_PERIOD_MS,
         }));
 
         await this.saveState();
+
+        // Start grace period timer
+        const disconnectTimer = setTimeout(async () => {
+          // Check if player is still disconnected (didn't reconnect)
+          const currentPlayer = this.room.players.find(p => p.id === player.id);
+          if (currentPlayer && currentPlayer.disconnectedAt) {
+            console.log(`[GameRoom] Grace period expired for ${player.name}, removing from game`);
+
+            // Remove player now
+            const idx = this.room.players.findIndex(p => p.id === player.id);
+            if (idx !== -1) {
+              this.room.players.splice(idx, 1);
+            }
+
+            // Clean up timer tracking
+            this.pendingDisconnects.delete(player.id);
+
+            // If room is empty, reset
+            if (this.room.players.length === 0) {
+              this.room = {
+                players: [],
+                gameStarted: false,
+                gameState: null,
+                hostId: null,
+              };
+              await this.party.storage.delete("room_v2");
+              return;
+            }
+
+            // Reassign host if needed
+            if (player.isHost && this.room.players.length > 0) {
+              this.room.players[0].isHost = true;
+              this.room.hostId = this.room.players[0].id;
+            }
+
+            // Broadcast final removal
+            this.party.broadcast(JSON.stringify({
+              type: "player_left",
+              playerId: player.id,
+              players: this.room.players,
+              hostId: this.room.hostId,
+              gameStarted: this.room.gameStarted,
+            }));
+
+            await this.saveState();
+          }
+        }, DISCONNECT_GRACE_PERIOD_MS);
+
+        // Track the timer so we can cancel it if player reconnects
+        this.pendingDisconnects.set(player.id, disconnectTimer);
       }
     } catch (error) {
       console.error("[GameRoom] Error in onClose:", error);
@@ -175,7 +252,19 @@ export default class GameRoom implements Party.Server {
             const existingPlayer = this.room.players.find(p => p.id === data.playerId);
 
             if (existingPlayer) {
+              // Cancel any pending disconnect timer
+              const pendingTimer = this.pendingDisconnects.get(data.playerId);
+              if (pendingTimer) {
+                clearTimeout(pendingTimer);
+                this.pendingDisconnects.delete(data.playerId);
+                console.log(`[GameRoom] Cancelled disconnect timer for ${existingPlayer.name} - player reconnected`);
+              }
+
+              // Clear disconnected state
+              const wasDisconnected = !!existingPlayer.disconnectedAt;
+              existingPlayer.disconnectedAt = undefined;
               existingPlayer.connectionId = sender.id;
+
               sender.send(JSON.stringify({
                 type: "rejoined",
                 room: {
@@ -185,6 +274,17 @@ export default class GameRoom implements Party.Server {
                 },
                 gameState: this.room.gameState,
               }));
+
+              // Notify other players that this player is back
+              if (wasDisconnected) {
+                this.party.broadcast(JSON.stringify({
+                  type: "player_reconnected",
+                  playerId: data.playerId,
+                  playerName: existingPlayer.name,
+                  players: this.room.players,
+                }), [sender.id]);
+              }
+
               // Also save state so the new connectionId is persisted
               await this.saveState();
               return;
@@ -278,6 +378,56 @@ export default class GameRoom implements Party.Server {
             playerId: data.playerId,
           }), [sender.id]); // Don't send back to sender
 
+          break;
+        }
+
+        case "leave_game": {
+          // Intentional leave - remove player immediately (no grace period)
+          const playerIndex = this.room.players.findIndex(p => p.id === data.playerId);
+
+          if (playerIndex !== -1) {
+            const player = this.room.players[playerIndex];
+            console.log(`[GameRoom] Player ${player.name} intentionally left the game`);
+
+            // Cancel any pending disconnect timer for this player
+            const pendingTimer = this.pendingDisconnects.get(data.playerId);
+            if (pendingTimer) {
+              clearTimeout(pendingTimer);
+              this.pendingDisconnects.delete(data.playerId);
+            }
+
+            // Remove player immediately
+            this.room.players.splice(playerIndex, 1);
+
+            // If room is empty, reset
+            if (this.room.players.length === 0) {
+              this.room = {
+                players: [],
+                gameStarted: false,
+                gameState: null,
+                hostId: null,
+              };
+              await this.party.storage.delete("room_v2");
+              return;
+            }
+
+            // Reassign host if needed
+            if (player.isHost && this.room.players.length > 0) {
+              this.room.players[0].isHost = true;
+              this.room.hostId = this.room.players[0].id;
+            }
+
+            // Broadcast player left to all (including the leaver for confirmation)
+            this.party.broadcast(JSON.stringify({
+              type: "player_left",
+              playerId: player.id,
+              players: this.room.players,
+              hostId: this.room.hostId,
+              gameStarted: this.room.gameStarted,
+            }));
+
+            await this.saveState();
+          }
           break;
         }
 
