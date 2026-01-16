@@ -270,19 +270,21 @@ const TANK_LANES = [
 ];
 
 // TankManager component to handle spawning/deletion
+const MAX_TANKS = 3;
+
 function TankManager() {
     const [tanks, setTanks] = useState<TankConfig[]>([]);
     const nextIdRef = useRef(0);
-    const lastSpawnTimeRef = useRef<{ [key: number]: number }>({});
+    const lastSpawnTimeRef = useRef(0);
 
-    // Initialize with some tanks already on screen
+    // Initialize with 2 tanks on screen
     useEffect(() => {
         const now = Date.now();
-        const initialTanks: TankConfig[] = TANK_LANES.map((lane, index) => {
+        const initialTanks: TankConfig[] = TANK_LANES.slice(0, 2).map((lane, index) => {
             const speed = lane.speedRange[0] + Math.random() * (lane.speedRange[1] - lane.speedRange[0]);
             return {
                 id: nextIdRef.current++,
-                startX: 25 - index * 15, // Stagger initial positions
+                startX: 20 - index * 18, // Stagger initial positions
                 y: lane.y,
                 z: lane.z,
                 scale: lane.scale,
@@ -292,55 +294,52 @@ function TankManager() {
             };
         });
         setTanks(initialTanks);
-
-        // Initialize last spawn times
-        TANK_LANES.forEach((_, index) => {
-            lastSpawnTimeRef.current[index] = now - index * 5000; // Stagger spawns
-        });
+        lastSpawnTimeRef.current = now;
     }, []);
 
-    // Spawn tanks periodically
+    // Spawn tanks periodically (only if below max)
     useEffect(() => {
         const spawnInterval = setInterval(() => {
             const now = Date.now();
 
             setTanks(prevTanks => {
-                const newTanks = [...prevTanks];
+                // Don't spawn if at max capacity
+                if (prevTanks.length >= MAX_TANKS) return prevTanks;
 
-                TANK_LANES.forEach((lane, laneIndex) => {
-                    const lastSpawn = lastSpawnTimeRef.current[laneIndex] || 0;
-                    const spawnDelay = 8000 + Math.random() * 6000; // 8-14 seconds between spawns per lane
+                const lastSpawn = lastSpawnTimeRef.current;
+                const spawnDelay = 10000 + Math.random() * 5000; // 10-15 seconds between spawns
 
-                    if (now - lastSpawn > spawnDelay) {
-                        // Check if there's no tank too close to spawn point in this lane
-                        // Use current position based on spawn time, not initial startX
-                        const hasNearbyTank = prevTanks.some(t => {
-                            if (t.z !== lane.z) return false;
-                            const elapsedSec = (now - t.spawnTime) / 1000;
-                            const currentX = t.startX - elapsedSec * t.speed;
-                            return currentX > 15;
-                        });
+                if (now - lastSpawn < spawnDelay) return prevTanks;
 
-                        if (!hasNearbyTank) {
-                            const speed = lane.speedRange[0] + Math.random() * (lane.speedRange[1] - lane.speedRange[0]);
-                            newTanks.push({
-                                id: nextIdRef.current++,
-                                startX: 25, // Spawn from right edge
-                                y: lane.y,
-                                z: lane.z,
-                                scale: lane.scale,
-                                speed,
-                                rotation: lane.rotation,
-                                spawnTime: now,
-                            });
-                            lastSpawnTimeRef.current[laneIndex] = now;
-                        }
-                    }
+                // Pick a random lane that doesn't have a tank near spawn point
+                const availableLanes = TANK_LANES.filter(lane => {
+                    return !prevTanks.some(t => {
+                        if (t.z !== lane.z) return false;
+                        const elapsedSec = (now - t.spawnTime) / 1000;
+                        const currentX = t.startX - elapsedSec * t.speed;
+                        return currentX > 10;
+                    });
                 });
 
-                return newTanks;
+                if (availableLanes.length === 0) return prevTanks;
+
+                const lane = availableLanes[Math.floor(Math.random() * availableLanes.length)];
+                const speed = lane.speedRange[0] + Math.random() * (lane.speedRange[1] - lane.speedRange[0]);
+
+                lastSpawnTimeRef.current = now;
+
+                return [...prevTanks, {
+                    id: nextIdRef.current++,
+                    startX: 25,
+                    y: lane.y,
+                    z: lane.z,
+                    scale: lane.scale,
+                    speed,
+                    rotation: lane.rotation,
+                    spawnTime: now,
+                }];
             });
-        }, 1000);
+        }, 2000);
 
         return () => clearInterval(spawnInterval);
     }, []);
