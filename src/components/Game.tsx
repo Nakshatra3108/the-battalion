@@ -26,6 +26,7 @@ import ResourceGainDisplay from './ResourceGainDisplay';
 import PhoneBlocker from './PhoneBlocker';
 import MissionBriefing from './MissionBriefing';
 import GerrymanderPanel from './GerrymanderPanel';
+import PhaseTimer from './PhaseTimer';
 import { playSound, startBGM } from '@/lib/SoundManager';
 
 type GameMode = 'lobby' | 'local' | 'online';
@@ -58,6 +59,25 @@ export default function Game() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showBlackOpsAlert, setShowBlackOpsAlert] = useState(false);
 
+  // Phase timer state
+  const [phaseTimeRemaining, setPhaseTimeRemaining] = useState<number>(0);
+  const [phaseTimerActive, setPhaseTimerActive] = useState(false);
+  const [currentTimerPhase, setCurrentTimerPhase] = useState<string | null>(null);
+
+  // Timer durations in seconds
+  const TIMER_DURATIONS = {
+    ACTION: 120, // 2 minutes
+    DEPLOYMENT: 60, // 1 minute combined for deploy + redeploy
+    REDEPLOYMENT: 0, // Uses remaining time from DEPLOYMENT
+  };
+
+  // Get total time for current phase
+  const getTotalTimeForPhase = (phase: string) => {
+    if (phase === 'ACTION') return TIMER_DURATIONS.ACTION;
+    if (phase === 'DEPLOYMENT' || phase === 'REDEPLOYMENT') return TIMER_DURATIONS.DEPLOYMENT;
+    return 0;
+  };
+
   // Auto-dismiss Black Ops alert after 5 seconds
   useEffect(() => {
     if (state?.lastBlackOpsPlayed) {
@@ -68,6 +88,75 @@ export default function Game() {
       return () => clearTimeout(timer);
     }
   }, [state?.lastBlackOpsPlayed?.timestamp]);
+
+  // Phase timer - Reset timer when phase changes
+  useEffect(() => {
+    if (!state || mode !== 'local') return;
+
+    const phase = state.phase;
+    const timedPhases = ['ACTION', 'DEPLOYMENT', 'REDEPLOYMENT'];
+
+    if (timedPhases.includes(phase)) {
+      // Start new timer for ACTION phase
+      if (phase === 'ACTION') {
+        setPhaseTimeRemaining(TIMER_DURATIONS.ACTION);
+        setCurrentTimerPhase('ACTION');
+        setPhaseTimerActive(true);
+      }
+      // Start new timer for DEPLOYMENT phase (combined with REDEPLOYMENT)
+      else if (phase === 'DEPLOYMENT' && currentTimerPhase !== 'DEPLOYMENT') {
+        setPhaseTimeRemaining(TIMER_DURATIONS.DEPLOYMENT);
+        setCurrentTimerPhase('DEPLOYMENT');
+        setPhaseTimerActive(true);
+      }
+      // REDEPLOYMENT continues from DEPLOYMENT timer
+      else if (phase === 'REDEPLOYMENT' && currentTimerPhase === 'DEPLOYMENT') {
+        // Keep the timer running, just update phase tracking
+        setCurrentTimerPhase('REDEPLOYMENT');
+      }
+    } else {
+      // Non-timed phase - stop timer
+      setPhaseTimerActive(false);
+      setCurrentTimerPhase(null);
+    }
+  }, [state?.phase, mode]);
+
+  // Phase timer - Countdown interval
+  useEffect(() => {
+    if (!phaseTimerActive || phaseTimeRemaining <= 0) return;
+
+    const interval = setInterval(() => {
+      setPhaseTimeRemaining(prev => {
+        if (prev <= 1) {
+          // Time's up - auto-advance phase
+          clearInterval(interval);
+          handleTimerExpired();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [phaseTimerActive]);
+
+  // Handle timer expiration
+  const handleTimerExpired = useCallback(() => {
+    if (!state) return;
+
+    playSound('alert_error');
+
+    if (state.phase === 'ACTION') {
+      // End action phase
+      dispatch({ type: 'END_ACTION_PHASE' });
+    } else if (state.phase === 'DEPLOYMENT' || state.phase === 'REDEPLOYMENT') {
+      // End turn
+      dispatch({ type: 'END_TURN' });
+    }
+
+    setPhaseTimerActive(false);
+    setCurrentTimerPhase(null);
+  }, [state, dispatch]);
 
   const handleJoinRoom = useCallback((roomId: string, playerId: string, playerName: string) => {
     setOnlineSession({ roomId, playerId, playerName });
@@ -540,6 +629,16 @@ export default function Game() {
               battalionCount={activePlayer.battalionReserve}
               evictedCount={activePlayer.evictedBattalions}
             />
+
+            {/* Phase Timer - Visible during timed phases */}
+            {phaseTimerActive && phaseTimeRemaining > 0 && (
+              <PhaseTimer
+                timeRemaining={phaseTimeRemaining}
+                totalTime={getTotalTimeForPhase(currentTimerPhase || state.phase)}
+                phaseName={currentTimerPhase === 'DEPLOYMENT' || currentTimerPhase === 'REDEPLOYMENT' ? 'DEPLOY' : 'ACTION'}
+              />
+            )}
+
             {/* Help Button */}
             <button
               onClick={() => setShowHelp(true)}

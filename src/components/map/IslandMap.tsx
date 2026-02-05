@@ -89,7 +89,7 @@ export default function IslandMap({
       }} />
 
       {/* 9 Sector Grid */}
-      <div className="absolute inset-4 grid grid-cols-3 grid-rows-3 gap-2 z-10">
+      <div className="absolute inset-2 md:inset-4 grid grid-cols-3 grid-rows-3 gap-1 md:gap-2 z-10">
         {SECTOR_GRID.flat().map((zoneId, index) => {
           const zone = state.zones[zoneId];
           if (!zone) return <div key={index} />;

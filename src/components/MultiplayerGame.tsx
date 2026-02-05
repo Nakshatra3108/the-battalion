@@ -63,6 +63,7 @@ import PhoneBlocker from './PhoneBlocker';
 import MissionBriefing from './MissionBriefing';
 import { playSound, startBGM } from '@/lib/SoundManager';
 import { terminology } from '@/data/displayNames';
+import PhaseTimer from './PhaseTimer';
 
 interface PlayerInfo {
   id: string;
@@ -96,6 +97,25 @@ export default function MultiplayerGame({
   const [showBriefing, setShowBriefing] = useState(true); // Show mission briefing when game starts
   const [showBlackOpsAlert, setShowBlackOpsAlert] = useState(false);
 
+  // Phase timer state
+  const [phaseTimeRemaining, setPhaseTimeRemaining] = useState<number>(0);
+  const [phaseTimerActive, setPhaseTimerActive] = useState(false);
+  const [currentTimerPhase, setCurrentTimerPhase] = useState<string | null>(null);
+
+  // Timer durations in seconds
+  const TIMER_DURATIONS = {
+    ACTION: 120, // 2 minutes
+    DEPLOYMENT: 60, // 1 minute combined for deploy + redeploy
+    REDEPLOYMENT: 0, // Uses remaining time from DEPLOYMENT
+  };
+
+  // Get total time for current phase
+  const getTotalTimeForPhase = (phase: string) => {
+    if (phase === 'ACTION') return TIMER_DURATIONS.ACTION;
+    if (phase === 'DEPLOYMENT' || phase === 'REDEPLOYMENT') return TIMER_DURATIONS.DEPLOYMENT;
+    return 0;
+  };
+
   // Auto-dismiss Black Ops alert after 5 seconds
   useEffect(() => {
     if (gameState?.lastBlackOpsPlayed) {
@@ -106,6 +126,83 @@ export default function MultiplayerGame({
       return () => clearTimeout(timer);
     }
   }, [gameState?.lastBlackOpsPlayed?.timestamp]);
+
+  // Phase timer - Reset timer when phase changes (only for current player)
+  useEffect(() => {
+    if (!gameState || !gamePlayerId) return;
+
+    const isMyTurn = gameState.activePlayerId === gamePlayerId;
+    const phase = gameState.phase;
+    const timedPhases = ['ACTION', 'DEPLOYMENT', 'REDEPLOYMENT'];
+
+    if (isMyTurn && timedPhases.includes(phase)) {
+      // Start new timer for ACTION phase
+      if (phase === 'ACTION' && currentTimerPhase !== 'ACTION') {
+        setPhaseTimeRemaining(TIMER_DURATIONS.ACTION);
+        setCurrentTimerPhase('ACTION');
+        setPhaseTimerActive(true);
+      }
+      // Start new timer for DEPLOYMENT phase (combined with REDEPLOYMENT)
+      else if (phase === 'DEPLOYMENT' && currentTimerPhase !== 'DEPLOYMENT' && currentTimerPhase !== 'REDEPLOYMENT') {
+        setPhaseTimeRemaining(TIMER_DURATIONS.DEPLOYMENT);
+        setCurrentTimerPhase('DEPLOYMENT');
+        setPhaseTimerActive(true);
+      }
+      // REDEPLOYMENT continues from DEPLOYMENT timer
+      else if (phase === 'REDEPLOYMENT' && (currentTimerPhase === 'DEPLOYMENT' || currentTimerPhase === 'REDEPLOYMENT')) {
+        setCurrentTimerPhase('REDEPLOYMENT');
+      }
+    } else if (!isMyTurn) {
+      // Not my turn - stop timer
+      setPhaseTimerActive(false);
+      setCurrentTimerPhase(null);
+    } else {
+      // Non-timed phase
+      setPhaseTimerActive(false);
+      setCurrentTimerPhase(null);
+    }
+  }, [gameState?.phase, gameState?.activePlayerId, gamePlayerId]);
+
+  // Phase timer - Countdown interval
+  useEffect(() => {
+    if (!phaseTimerActive || phaseTimeRemaining <= 0) return;
+
+    const interval = setInterval(() => {
+      setPhaseTimeRemaining(prev => {
+        if (prev <= 1) {
+          // Time's up - auto-advance phase
+          clearInterval(interval);
+          handleTimerExpired();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [phaseTimerActive]);
+
+  // Handle timer expiration for multiplayer
+  const handleTimerExpired = useCallback(() => {
+    if (!gameState || !gamePlayerId) return;
+
+    playSound('alert_error');
+
+    if (gameState.phase === 'ACTION') {
+      const newState = endActionPhase(gameState);
+      if (newState !== gameState) {
+        sendAction({ type: 'END_ACTION_PHASE' });
+      }
+    } else if (gameState.phase === 'DEPLOYMENT' || gameState.phase === 'REDEPLOYMENT') {
+      const newState = endTurn(gameState);
+      if (newState !== gameState) {
+        sendAction({ type: 'END_TURN' });
+      }
+    }
+
+    setPhaseTimerActive(false);
+    setCurrentTimerPhase(null);
+  }, [gameState, gamePlayerId]);
 
   const isHostRef = useRef(false);
   const playersListRef = useRef<PlayerInfo[]>([]);
@@ -1102,6 +1199,16 @@ export default function MultiplayerGame({
               battalionCount={activePlayer.battalionReserve}
               evictedCount={activePlayer.evictedBattalions}
             />
+
+            {/* Phase Timer - Visible during timed phases for current player */}
+            {phaseTimerActive && phaseTimeRemaining > 0 && gamePlayerId === gameState.activePlayerId && (
+              <PhaseTimer
+                timeRemaining={phaseTimeRemaining}
+                totalTime={getTotalTimeForPhase(currentTimerPhase || gameState.phase)}
+                phaseName={currentTimerPhase === 'DEPLOYMENT' || currentTimerPhase === 'REDEPLOYMENT' ? 'DEPLOY' : 'ACTION'}
+              />
+            )}
+
             {/* Restore Help Button */}
             <button
               onClick={() => setShowHelp(true)}

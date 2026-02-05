@@ -50,10 +50,11 @@ export default function ZoneComponent({
   const isVolatileSlot = (index: number) => zone.volatileSlots.includes(index);
 
   const getCellSizeClass = () => {
-    if (zone.capacity <= 9) return 'w-[clamp(22px,3.2vw,40px)] h-[clamp(22px,3.2vw,40px)]';
-    if (zone.capacity <= 11) return 'w-[clamp(20px,2.8vw,36px)] h-[clamp(20px,2.8vw,36px)]';
-    if (zone.capacity <= 17) return 'w-[clamp(18px,2.4vw,32px)] h-[clamp(18px,2.4vw,32px)]';
-    return 'w-[clamp(16px,2.2vw,28px)] h-[clamp(16px,2.2vw,28px)]';
+    // Increased minimum sizes to ensure visibility on smaller screens
+    if (zone.capacity <= 9) return 'w-[clamp(28px,3.5vw,40px)] h-[clamp(28px,3.5vw,40px)]';
+    if (zone.capacity <= 11) return 'w-[clamp(26px,3.2vw,36px)] h-[clamp(26px,3.2vw,36px)]';
+    if (zone.capacity <= 17) return 'w-[clamp(24px,2.8vw,32px)] h-[clamp(24px,2.8vw,32px)]';
+    return 'w-[clamp(22px,2.5vw,28px)] h-[clamp(22px,2.5vw,28px)]';
   };
 
   return (
